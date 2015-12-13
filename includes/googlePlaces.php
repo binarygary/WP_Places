@@ -1,0 +1,69 @@
+<?php
+
+
+
+function search($location) {
+	$apiKey = get_option( 'WP_Places_Google_Id_Setting', '' );
+	$location=urlencode(trim(preg_replace("/[^0-9a-zA-Z -]/", "", $location)));
+	$ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$location&key=$apiKey");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+    curl_setopt($ch, CURLOPT_VERBOSE, 0);
+    curl_setopt($ch, CURLOPT_HEADER, 0);
+    $response=curl_exec($ch);
+    $response=json_decode(stripslashes($response),true);
+    
+	unset($ch);
+	
+    if ('ZERO_RESULTS'==$response['status'] || 'INVALID_REQUEST'==$response['status']) {
+      
+    } else {
+      $placeId=$response['predictions'][0]['place_id']; 
+	  return($placeId);
+    }
+  }
+  
+  
+  function placeDetails($placeId) {
+	  if (!NULL==$placeId) {
+	  $apiKey = get_option( 'WP_Places_Google_Id_Setting', '' );
+	  $ch = curl_init();
+      curl_setopt($ch, CURLOPT_URL, "https://maps.googleapis.com/maps/api/place/details/json?placeid=$placeId&key=$apiKey");
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+      curl_setopt($ch, CURLOPT_VERBOSE, 0);
+      curl_setopt($ch, CURLOPT_HEADER, 0);
+	  $gp[placeId]=$placeId;
+      $response=curl_exec($ch);
+	  unset($ch);
+      for ($i = 0; $i <= 31; ++$i) { 
+          $response = str_replace(chr($i), "", $response); 
+      }
+      $response = str_replace(chr(127), "", $response);
+      $response = str_replace("â€“","-",$response);
+    
+      // This is the most common part
+      // Some file begins with 'efbbbf' to mark the beginning of the file. (binary level)
+      // here we detect it and we remove it, basically it's the first 3 characters 
+      if (0 === strpos(bin2hex($response), 'efbbbf')) {
+        $response = substr($response, 3);
+      }
+      $response=json_decode($response,true);
+      //print_r($response);
+      //$this->openNow=$response['result']['opening_hours']['open_now'];
+      $gp[hours]=$response['result']['opening_hours']['weekday_text'];//
+      $gp[openNow]=$response['result']['opening_hours']['open_now'];
+      $gp[priceLevel]=$response['result']['price_level'];
+	  $gp[name]=$response['result']['name'];//
+      $gp[rating]=$response['result']['rating'];
+      $gp[phoneNumber]=$response['result']['formatted_phone_number'];//
+      $gp[website]=$response['result']['website'];//
+      $gp[lat]=$response['result']['geometry']['location']['lat'];
+      $gp[lng]=$response['result']['geometry']['location']['lng'];
+	  $gp[formattedAddress]=$response['result']['formatted_address'];//
+      $gp[permanentlyClosed]=$response['result']['permanently_closed'];
+	  //print_r($gp);
+	  return($gp);
+  	} else  {
+  		return;
+  	}
+    }
