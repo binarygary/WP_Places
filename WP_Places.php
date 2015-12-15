@@ -181,7 +181,7 @@ function WP_Places_add_before_content($content) {
 		if (isset($placeArray[website])) {
 			$WpPlaces.="<a href=$placeArray[website]>website</a><BR>";
 		}
-		$WpPlaces.="<img src=".WP_PLUGIN_URL."/WP_Places/img/powered_by_google_on_white.png />";
+		$WpPlaces.="<img src=".plugins_url('img/powered_by_google_on_white.png', __FILE__) . />";
 		$WpPlaces.="</DIV>";
 	}
 	if (is_single()) {
