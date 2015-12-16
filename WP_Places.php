@@ -1,8 +1,5 @@
 <?php
 
-//THIS SHOULD ONLY SHOW UP IN THE ALT BRANCH
-
-
 /**
  * Plugin Name: WP_Places
  * Version: 1.0.3
@@ -95,6 +92,15 @@ function WP_Places_meta_box_callback( $post ) {
 	_e( 'Name and Address', 'WP_Places_textdomain' );
 	echo '</label> ';
 	echo '<input type="text" id="WP_Places_new_field" name="WP_Places_new_field" value="' . esc_attr( $value ) . '" size="25" />';
+	
+	if (!NULL==get_post_meta($post->ID, '_WP_Places_meta_Google_response', true)) {
+		$googleResponse=placeDetails(get_post_meta($post->ID, '_WP_Places_meta_Google_response', true));
+		//$googleResponse=get_post_meta($post->ID, '_WP_Places_meta_Google_response', true);
+		echo "<h4>Here's the place WP_Places thinks you're talking about:</h4>";
+		echo "<h5>".$googleResponse[name]."<BR>";
+		echo $googleResponse[formattedAddress]."</h5>";
+	}
+	
 }
 
 /**
@@ -147,7 +153,6 @@ function WP_Places_save_meta_box_data( $post_id ) {
 
 	// Sanitize user input.
 	$my_data = sanitize_text_field( $_POST['WP_Places_new_field'] );
-
 	// Update the meta field in the database.
 	update_post_meta( $post_id, '_WP_Places_meta_value_key', $my_data );
 	
@@ -168,14 +173,21 @@ function WP_Places_add_before_content($content) {
 	$locationPlace=get_post_meta(get_the_ID(),'_WP_Places_meta_Google_response', true);
 	//let's go ahead and cache this
 	
-	if ( false === ( $placeArray = get_transient( '_Wp_Places_$locationPlace' ) ) ) {
+	//if ( false === ( $placeArray = get_transient( '_Wp_Places_$locationPlace' ) ) ) {
 	     $placeArray = placeDetails($locationPlace);
-	     set_transient( "_Wp_Places_$locationPlace", $placeArray, DAY_IN_SECONDS );
-	}
+	     //set_transient( "_Wp_Places_$locationPlace", $placeArray, DAY_IN_SECONDS );
+	//}
 	
 	
 	if(!NULL==$placeArray[name]) {
 		$WpPlaces.="<DIV style=\"float: right; border: 1px black solid; bgcolor=#f1f1f1; padding: 10px; background-color: #cccccc; font-size: 12px; max-width: 250px; margin: auto;\">";
+		
+		if (isset($placeArray[openNow])) {
+			$WpPlaces.="<span style=\"color: red;\">Open Now</SPAN><BR>";
+		}
+		
+		
+		
 		if (isset($placeArray[permanentlyClosed])) {
 			$WpPlaces.="<span style=\"color: red;\">PERMANENTLY CLOSED</SPAN><BR>";
 		}
