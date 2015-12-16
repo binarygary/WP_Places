@@ -25,7 +25,21 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+
+
+//http://www.yaconiello.com/blog/how-to-handle-wordpress-settings/
 require_once(dirname(__FILE__) . "/includes/googlePlaces.php");
+
+
+function WP_Places_menu() {
+	add_options_page( 'WP_Places Page', 'WP_Places', 'manage_options', 'wp-places-plugin', 'WP_Places_add_settings_field' );
+}
+add_action('admin_menu','WP_Places_menu');
+
+
+
+
+
 
 
 //Get the users google places key
