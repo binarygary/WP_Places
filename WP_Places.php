@@ -1,4 +1,8 @@
 <?php
+
+//THIS SHOULD ONLY SHOW UP IN THE ALT BRANCH
+
+
 /**
  * Plugin Name: WP_Places
  * Version: 1.0.3
