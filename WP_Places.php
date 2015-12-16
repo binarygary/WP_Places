@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: WP_Places
- * Version: 0.1-alpha
+ * Version: 1.0.3
  * Description: Given location name saved with a Post search Google Places API Web Service and displays address, hours, phone number and link to website
  * Author: Gary Kovar
  * Author URI: http://binarygary.com
@@ -30,13 +30,26 @@ require_once(dirname(__FILE__) . "/includes/googlePlaces.php");
 //Get the users google places key
 function WP_Places_add_settings_field() {
 	register_setting('general', 'WP_Places_Google_Id_Setting', 'esc_attr');
-	add_settings_field('WP_Places_Google_Id_Setting', '<label for="WP_Places_Google_Id_Setting">'.__('Google ID' , 'WP_Places_Google_Id_Setting' ).'</label>' , 'print_custom_field', 'general');
-
+	register_setting('general', 'WP_Places_Google_Attr_Setting_check', 'esc_attr');
+	
+	add_settings_field('WP_Places_Google_Id_Setting', '<label for="WP_Places_Google_Id_Setting">'.__('Google Places API Web Services Key' , 'WP_Places_Google_Id_Setting' ).'</label>' , 'print_custom_field', 'general');
+	add_settings_field('WP_Places_Google_Attr_Setting_check', '<label for="WP_Places_Google_Attr_Setting_check">'.__('Display Google Attribution' , 'WP_Places_Google_Attr_Setting_check' ).'</label>' , 'WP_Places_Google_Attr_Setting_check_display', 'general');
+	
 }
 function print_custom_field()
 {
     $value = get_option( 'WP_Places_Google_Id_Setting', '' );
-    echo '<input type="text" id="WP_Places_Google_Id_Setting" name="WP_Places_Google_Id_Setting" value="' . $value . '" />';
+    echo '<input type="text" id="WP_Places_Google_Id_Setting" name="WP_Places_Google_Id_Setting" value="' . $value . '" /><BR />';
+}
+
+function WP_Places_Google_Attr_Setting_check_display()
+{	
+    $value = get_option( 'WP_Places_Google_Attr_Setting_check', '' );
+    echo '<input type="checkbox" id="WP_Places_Google_Attr_Setting_check" name="WP_Places_Google_Attr_Setting_check" value="googlecheck" ';
+	if ($value=='googlecheck') {
+		echo 'checked';
+	}
+	echo '/> <i>Please add the \'Powered by Google\' image that Google Places API Web Services requires me to display';
 }
 add_action ( 'admin_init', 'WP_Places_add_settings_field' );
 
@@ -149,7 +162,6 @@ add_action( 'save_post', 'WP_Places_save_meta_box_data' );
 
 function WP_Places_add_before_content($content) {
 	$locationPlace=get_post_meta(get_the_ID(),'_WP_Places_meta_Google_response', true);
-	//print_r($array);
 	//let's go ahead and cache this
 	
 	if ( false === ( $placeArray = get_transient( '_Wp_Places_$locationPlace' ) ) ) {
@@ -181,7 +193,9 @@ function WP_Places_add_before_content($content) {
 		if (isset($placeArray[website])) {
 			$WpPlaces.="<a href=$placeArray[website]>website</a><BR>";
 		}
-		$WpPlaces.="<img src=".plugins_url('img/powered_by_google_on_white.png', __FILE__) . "/>";
+		if(get_option('WP_Places_Google_Attr_Setting_check')=='googlecheck') {
+			$WpPlaces.="<img src=".plugins_url('img/powered_by_google_on_white.png', __FILE__) . ">";
+		} 
 		$WpPlaces.="</DIV>";
 	}
 	if (is_single()) {

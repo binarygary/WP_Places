@@ -28,5 +28,15 @@ Once Installed, WP_Places takes name and location and displays a DIV containing 
 
 == Changelog ==
 
+= 1.0.3 =
+* I misspleeeldead services in teh 1.0.2 release
+* Fixed image location url
+
+= 1.0.2 =
+* Fixed confusing field name
+
+= 1.0.1 =
+* Fixed launching with no settings visibility
+
 = 1.0 =
 * Initial Launch!
