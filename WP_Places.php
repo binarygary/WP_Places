@@ -30,8 +30,11 @@ require_once(dirname(__FILE__) . "/includes/googlePlaces.php");
 
 //Get the users google places key
 function WP_Places_add_settings_field() {
+		
 	register_setting('general', 'WP_Places_Google_Id_Setting', 'esc_attr');
 	register_setting('general', 'WP_Places_Google_Attr_Setting_check', 'esc_attr');
+	
+	
 	
 	add_settings_field('WP_Places_Google_Id_Setting', '<label for="WP_Places_Google_Id_Setting">'.__('Google Places API Web Services Key' , 'WP_Places_Google_Id_Setting' ).'</label>' , 'print_custom_field', 'general');
 	add_settings_field('WP_Places_Google_Attr_Setting_check', '<label for="WP_Places_Google_Attr_Setting_check">'.__('Display Google Attribution' , 'WP_Places_Google_Attr_Setting_check' ).'</label>' , 'WP_Places_Google_Attr_Setting_check_display', 'general');
@@ -52,7 +55,7 @@ function WP_Places_Google_Attr_Setting_check_display()
 	}
 	echo '/> <i>Please add the \'Powered by Google\' image that Google Places API Web Services requires me to display';
 }
-add_action ( 'admin_init', 'WP_Places_add_settings_field' );
+add_action ( 'admin_menu', 'WP_Places_add_settings_field' );
 
 
 /**
