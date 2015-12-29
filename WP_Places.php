@@ -2,7 +2,7 @@
 
 /**
  * Plugin Name: WP_Places
- * Version: 1.0.4
+ * Version: 1.1.0
  * Description: Given location name saved with a Post search Google Places API Web Service and displays address, hours, phone number and link to website
  * Author: Gary Kovar
  * Author URI: http://binarygary.com
@@ -79,32 +79,6 @@ function WP_Places_settings() {
 	</form>
 	</div>
 	<?php } 
-
-
-
-
-	/*
-	add_settings_field('WP_Places_Google_Id_Setting', '<label for="WP_Places_Google_Id_Setting">'.__('Google Places API Web Services Key' , 'WP_Places_Google_Id_Setting' ).'</label>' , 'print_custom_field', 'general');
-	add_settings_field('WP_Places_Google_Attr_Setting_check', '<label for="WP_Places_Google_Attr_Setting_check">'.__('Display Google Attribution' , 'WP_Places_Google_Attr_Setting_check' ).'</label>' , 'WP_Places_Google_Attr_Setting_check_display', 'general');
-	
-}
-function print_custom_field()
-{
-    $value = get_option( 'WP_Places_Google_Id_Setting', '' );
-    echo '<input type="text" id="WP_Places_Google_Id_Setting" name="WP_Places_Google_Id_Setting" value="' . $value . '" /><BR />';
-}
-
-function WP_Places_Google_Attr_Setting_check_display()
-{	
-    $value = get_option( 'WP_Places_Google_Attr_Setting_check', '' );
-    echo '<input type="checkbox" id="WP_Places_Google_Attr_Setting_check" name="WP_Places_Google_Attr_Setting_check" value="googlecheck" ';
-	if ($value=='googlecheck') {
-		echo 'checked';
-	}
-	echo '/> <i>Please add the \'Powered by Google\' image that Google Places API Web Services requires me to display';
-}
-add_action ( 'admin_menu', 'WP_Places_add_settings_field' );
-*/
 
 /**
  * Adds a box to the main column on the Post and Page edit screens.
