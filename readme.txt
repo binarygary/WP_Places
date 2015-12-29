@@ -1,7 +1,7 @@
 === Plugin Name ===
 Contributors: binarygary
 Tags: Google Places, Business Information, Location, Google Places API Web Services
-Stable Tag: Trunk
+Stable Tag: 1.0.5
 Requires at least: 4.0
 Tested up to: 4.4
 License: GPLv3 or later
@@ -26,6 +26,9 @@ Once Installed, WP_Places takes name and location and displays a DIV containing 
 4. When writing a post about a business, add the business name and address to the WP_Places field.
 
 == Changelog ==
+
+= 1.0.5 =
+* removed confusing menu stub
 
 = 1.0.4 =
 * Now shows within the posts section the location name that was returned from Google
