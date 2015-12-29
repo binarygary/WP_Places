@@ -28,7 +28,7 @@ Once Installed, WP_Places takes name and location and displays a DIV containing 
 == Changelog ==
 
 = 1.1.0 =
-* WP_Places now has its own navigation page created
+* WP_Places now has its own navigation page
 
 = 1.0.5 =
 * removed confusing menu stub
