@@ -30,25 +30,60 @@
 require_once(dirname(__FILE__) . "/includes/googlePlaces.php");
 
 
-/*function WP_Places_menu() {
-	add_options_page( 'WP_Places Page', 'WP_Places', 'manage_options', 'wp-places-plugin', 'WP_Places_add_settings_field' );
+function WP_Places_menu() {
+	add_menu_page( 'WP_Places', 'WP_Places', 'manage_options', 'wp-places-plugin', 'WP_Places_settings' ,'dashicons-store','66');
+	add_action( 'admin_init', 'WP_Places_add_settings_field' );
 }
 add_action('admin_menu','WP_Places_menu');
-*/
-
-
-
-
 
 
 //Get the users google places key
 function WP_Places_add_settings_field() {
+	//echo "what?";
 		
-	register_setting('general', 'WP_Places_Google_Id_Setting', 'esc_attr');
-	register_setting('general', 'WP_Places_Google_Attr_Setting_check', 'esc_attr');
+	register_setting('WP_Places_settings-group', 'WP_Places_Google_Id_Setting', 'esc_attr');
+	register_setting('WP_Places_settings-group', 'WP_Places_Google_Attr_Setting_check', 'esc_attr');
 	
-	
-	
+}
+
+
+function WP_Places_settings() {
+	?>
+	<div class="wrap">
+	<h2>WP_Places</h2>
+
+	<form method="post" action="options.php">
+	    <?php settings_fields( 'WP_Places_settings-group' ); ?>
+	    <?php do_settings_sections( 'WP_Places_settings-group' ); ?>
+	    <table class="form-table">
+	        <tr valign="top">
+	        <th scope="row">New Option Name</th>
+	        <td><input type="text" name="WP_Places_Google_Id_Setting" value="<?php echo esc_attr( get_option('WP_Places_Google_Id_Setting') ); ?>" /></td>
+	        </tr>
+         
+	        <tr valign="top">
+	        <th scope="row">Add the 'Powered by Google' Image the Google TOS Requires</th>
+			<?php $value = get_option( 'WP_Places_Google_Attr_Setting_check', '' ); ?>
+	        <td><input type="checkbox" id="WP_Places_Google_Attr_Setting_check" name="WP_Places_Google_Attr_Setting_check" value="googlecheck"
+	<?php
+	if ($value=='googlecheck') {
+		echo 'checked';
+	}
+	?>/></td>
+	        </tr>
+        
+	    </table>
+    
+	    <?php submit_button(); ?>
+
+	</form>
+	</div>
+	<?php } 
+
+
+
+
+	/*
 	add_settings_field('WP_Places_Google_Id_Setting', '<label for="WP_Places_Google_Id_Setting">'.__('Google Places API Web Services Key' , 'WP_Places_Google_Id_Setting' ).'</label>' , 'print_custom_field', 'general');
 	add_settings_field('WP_Places_Google_Attr_Setting_check', '<label for="WP_Places_Google_Attr_Setting_check">'.__('Display Google Attribution' , 'WP_Places_Google_Attr_Setting_check' ).'</label>' , 'WP_Places_Google_Attr_Setting_check_display', 'general');
 	
@@ -69,7 +104,7 @@ function WP_Places_Google_Attr_Setting_check_display()
 	echo '/> <i>Please add the \'Powered by Google\' image that Google Places API Web Services requires me to display';
 }
 add_action ( 'admin_menu', 'WP_Places_add_settings_field' );
-
+*/
 
 /**
  * Adds a box to the main column on the Post and Page edit screens.
