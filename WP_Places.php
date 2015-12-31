@@ -242,7 +242,20 @@ function WP_Places_add_before_content($content) {
 		$WpPlaces.="</DIV>";
 	}
 	if (is_single()) {
-		return $WpPlaces.$content;
+			$contents = explode("</p>", $content);
+			echo "<!--the array";
+			print_r($contents);
+			echo "-->";
+			foreach ($contents as $paragraph) {
+				if ($added!=1) {
+					$paragraph=$paragraph.$WpPlaces;
+					$added=1;
+					$content=null;
+				}
+				$content.=$paragraph."</p>";	
+			}
+
+			return $content;
 	} else {
 	    return $content;
 	}
