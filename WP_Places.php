@@ -210,7 +210,9 @@ function WP_Places_add_before_content($content) {
 		$WpPlaces.="<DIV style=\"float: right; border: 1px black solid; bgcolor=#f1f1f1; padding: 10px; background-color: #cccccc; font-size: 12px; max-width: 250px; margin: auto;\">";
 		
 		if (isset($placeArray[openNow])) {
-			$WpPlaces.="<span style=\"color: red;\">Open Now</SPAN><BR>";
+			if ($placeArray[openNow]==1) {
+				$WpPlaces.="<span style=\"color: red;\">Open Now</SPAN><BR>";	
+			}
 		}
 		
 		
@@ -243,9 +245,6 @@ function WP_Places_add_before_content($content) {
 	}
 	if (is_single()) {
 			$contents = explode("</p>", $content);
-			echo "<!--the array";
-			print_r($contents);
-			echo "-->";
 			foreach ($contents as $paragraph) {
 				if ($added!=1) {
 					$paragraph=$paragraph.$WpPlaces;
