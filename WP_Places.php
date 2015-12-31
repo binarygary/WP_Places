@@ -245,14 +245,19 @@ function WP_Places_add_before_content($content) {
 	}
 	if (is_single()) {
 			$contents = explode("</p>", $content);
-			foreach ($contents as $paragraph) {
-				if ($added!=1) {
-					$paragraph=$paragraph.$WpPlaces;
-					$added=1;
-					$content=null;
+			if (is_array($contents)) {
+				foreach ($contents as $paragraph) {
+					if ($added!=1) {
+						$paragraph=$paragraph.$WpPlaces;
+						$added=1;
+						$content=null;
+					}
+					$content.=$paragraph."</p>";	
 				}
-				$content.=$paragraph."</p>";	
+			} else {
+				$content=$WpPlaces.$content;
 			}
+			
 
 			return $content;
 	} else {
