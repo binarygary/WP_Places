@@ -1,7 +1,7 @@
 === Plugin Name ===
 Contributors: binarygary
 Tags: Google Places, Business Information, Location, Google Places API Web Services
-Stable Tag: 1.1.0
+Stable Tag: 1.1.1
 Requires at least: 4.0
 Tested up to: 4.4
 License: GPLv3 or later
@@ -27,8 +27,21 @@ Once Installed, WP_Places takes name and location and displays a DIV containing 
 
 == Changelog ==
 
+= 1.1.2 =
+* Fixed labels again
+* Shortcodes
+* Added toggle for displaying the embedded DIV
+
+= 1.1.1 =
+* CSS is no longer hard-coded
+* Fixed confusing label on new menu page
+
 = 1.1.0 =
-* WP_Places now has its own navigation page
+* Added menu page specifically for WP_Places
+* checked to see if content has multiple paragraphs before inserting content at the beginning of the 2nd paragraph
+
+= 1.0.6 =
+* moved default location to the end of the 1st paragraph after frantically realizing embedding at the beginning meant that social sharing was funky
 
 = 1.0.5 =
 * removed confusing menu stub
