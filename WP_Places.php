@@ -2,7 +2,7 @@
 
 /**
  * Plugin Name: WP_Places
- * Version: 1.1.0
+ * Version: 1.1.4
  * Description: Given location name saved with a Post search Google Places API Web Service and displays address, hours, phone number and link to website
  * Author: Gary Kovar
  * Author URI: http://binarygary.com
@@ -25,10 +25,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-
-
 require_once(dirname(__FILE__) . "/includes/googlePlaces.php");
-
 
 function WP_Places_menu() {
 	add_menu_page( 'WP_Places', 'WP_Places', 'manage_options', 'wp-places-plugin', 'WP_Places_settings' ,'dashicons-store','66');
@@ -39,13 +36,13 @@ add_action('admin_menu','WP_Places_menu');
 
 //Get the users google places key
 function WP_Places_add_settings_field() {
-	//echo "what?";
 		
 	register_setting('WP_Places_settings-group', 'WP_Places_Google_Id_Setting', 'esc_attr');
 	register_setting('WP_Places_settings-group', 'WP_Places_Google_Attr_Setting_check', 'esc_attr');
+	register_setting('WP_Places_settings-group', 'WP_Places_CSS', 'esc_attr');
+	register_setting('WP_Places_settings-group', 'WP_Places_Display_Div', 'esc_attr');
 	
 }
-
 
 function WP_Places_settings() {
 	?>
@@ -57,20 +54,47 @@ function WP_Places_settings() {
 	    <?php do_settings_sections( 'WP_Places_settings-group' ); ?>
 	    <table class="form-table">
 	        <tr valign="top">
-	        <th scope="row">New Option Name</th>
-	        <td><input type="text" name="WP_Places_Google_Id_Setting" value="<?php echo esc_attr( get_option('WP_Places_Google_Id_Setting') ); ?>" /></td>
+	        <th scope="row">Google Place API Web Service Key:</th>
+	        <td><input type="text" class="regular-text" name="WP_Places_Google_Id_Setting" value="<?php echo esc_attr( get_option('WP_Places_Google_Id_Setting') ); ?>" /></td>
 	        </tr>
          
 	        <tr valign="top">
-	        <th scope="row">Add the 'Powered by Google' Image the Google TOS Requires</th>
-			<?php $value = get_option( 'WP_Places_Google_Attr_Setting_check', '' ); ?>
-	        <td><input type="checkbox" id="WP_Places_Google_Attr_Setting_check" name="WP_Places_Google_Attr_Setting_check" value="googlecheck"
-	<?php
-	if ($value=='googlecheck') {
-		echo 'checked';
-	}
-	?>/></td>
+		        <th scope="row">Add the 'Powered by Google' Image the Google TOS Requires: </th>
+				<?php $value = get_option( 'WP_Places_Google_Attr_Setting_check', '' ); ?>
+		        <td><input type="checkbox" id="WP_Places_Google_Attr_Setting_check" name="WP_Places_Google_Attr_Setting_check" value="googlecheck"
+					<?php
+						if ($value=='googlecheck') {
+							echo 'checked';
+						}
+					?>/>
+				</td>
 	        </tr>
+			
+			
+	        <tr valign="top">
+		        <th scope="row">Embed a div in content using the style below: </th>
+				<?php $value = get_option( 'WP_Places_Display_Div', '' ); ?>
+		        <td><input type="checkbox" id="WP_Places_Display_Div" name="WP_Places_Display_Div" value="embed"
+					<?php
+						if ($value=='embed') {
+							echo 'checked';
+						}
+					?>/>
+				</td>
+	        </tr>
+			
+			
+			<tr valign="top">
+				<th scope="row">Styling:</th>
+					<?php 
+						$value = get_option( 'WP_Places_CSS', '' ); 
+						if ($value==null) {
+							$value='float: right; border: 1px black solid; bgcolor=#f1f1f1; padding: 10px; background-color: #cccccc; font-size: 12px; max-width: 250px; margin: auto;';
+						}
+					?>
+			        <td><textarea rows="10" cols="50" class="large-text code id="WP_Places_CSS" name="WP_Places_CSS"><?php echo $value; ?></textarea>
+					</td>
+		        </tr>
         
 	    </table>
     
@@ -78,7 +102,8 @@ function WP_Places_settings() {
 
 	</form>
 	</div>
-	<?php } 
+	<?php 
+} 
 
 /**
  * Adds a box to the main column on the Post and Page edit screens.
@@ -201,13 +226,14 @@ function WP_Places_add_before_content($content) {
 	//let's go ahead and cache this
 	
 	//if ( false === ( $placeArray = get_transient( '_Wp_Places_$locationPlace' ) ) ) {
-	     $placeArray = placeDetails($locationPlace);
+	$placeArray = placeDetails($locationPlace);
 	     //set_transient( "_Wp_Places_$locationPlace", $placeArray, DAY_IN_SECONDS );
 	//}
 	
 	
 	if(!NULL==$placeArray[name]) {
-		$WpPlaces.="<DIV style=\"float: right; border: 1px black solid; bgcolor=#f1f1f1; padding: 10px; background-color: #cccccc; font-size: 12px; max-width: 250px; margin: auto;\">";
+		$style=get_option( 'WP_Places_CSS', '' );
+		$WpPlaces.="<DIV style=\"$style\">";
 		
 		if (isset($placeArray[openNow])) {
 			if ($placeArray[openNow]==1) {
@@ -264,4 +290,22 @@ function WP_Places_add_before_content($content) {
 	    return $content;
 	}
 }
-add_filter('the_content', 'WP_Places_add_before_content');
+
+if(get_option('WP_Places_Display_Div')=='embed') {
+	add_filter('the_content', 'WP_Places_add_before_content');
+}
+
+
+function WP_Places_shortcode($attr) {
+	$locationPlace=get_post_meta(get_the_ID(),'_WP_Places_meta_Google_response', true);
+	$placeArray = placeDetails($locationPlace);
+	$attributesArray=array("openNow","permanentlyClosed","name","formattedAddress","phoneNumber","hours","website","priceLevel","rating","lat","lon");
+	foreach ($attr as $index=>$key) {
+		if (in_array($key,$attributesArray)) {
+			echo $placeArray[$key];
+		}
+	}
+}
+
+add_shortcode('wp_places', 'WP_Places_shortcode');
+

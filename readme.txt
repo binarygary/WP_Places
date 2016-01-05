@@ -1,7 +1,7 @@
 === Plugin Name ===
 Contributors: binarygary
 Tags: Google Places, Business Information, Location, Google Places API Web Services
-Stable Tag: 1.1.0
+Stable Tag: 1.1.4
 Requires at least: 4.0
 Tested up to: 4.4
 License: GPLv3 or later
@@ -18,17 +18,50 @@ WP_Places Plugin requires a Google Places API Web Service Key. However, at the t
 
 Once Installed, WP_Places takes name and location and displays a DIV containing Business Name, Address, Hours, Phone Number, Website.
 
+The following shortcodes are available:
+[wp_places name] displays the Google Places name
+[wp_places formattedAddress] displays the address in the regionally standardized way
+[wp_places phoneNumaber] displays the phone number in the regionally standardized way
+[wp_places hours] displays the hours of operation in a list
+[wp_places website] displays the website
+[wp_places priceLevel] returns the pricing level as prescribed in google places API
+[wp_places rating] returns the average rating as prescribed in google places API
+[wp_places lat] lattitude
+[wp_places lon] longitude
+[wp_places openNow] returns 1 if open
+[wp_places permanentlyClosed] returns 1 if permanently closed
+
 == Installation ==
 
 1. Upload the plugin files to the `/wp-content/plugins/WP_Places` directory, or install the plugin through the WordPress plugins screen directly.
 2. Activate the plugin through the 'Plugins' screen in WordPress.
-3. Use the Settings->General screen to add your Google Places API Web Services Key.
+3. Use the Settings page on the WP_Places page to add your Google Places API Web Services Key.
 4. When writing a post about a business, add the business name and address to the WP_Places field.
 
 == Changelog ==
 
+= 1.1.4 =
+* fixed bone-headed mistake that hid the div
+
+= 1.1.3 =
+* shortcodes made live
+* fixed spelling errors
+
+= 1.1.2 =
+* Fixed labels again
+* Shortcodes setup
+* Added toggle for displaying the embedded DIV
+
+= 1.1.1 =
+* CSS is no longer hard-coded
+* Fixed confusing label on new menu page
+
 = 1.1.0 =
-* WP_Places now has its own navigation page
+* Added menu page specifically for WP_Places
+* checked to see if content has multiple paragraphs before inserting content at the beginning of the 2nd paragraph
+
+= 1.0.6 =
+* moved default location to the end of the 1st paragraph after frantically realizing embedding at the beginning meant that social sharing was funky
 
 = 1.0.5 =
 * removed confusing menu stub
