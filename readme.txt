@@ -1,7 +1,11 @@
 === Plugin Name ===
 Contributors: binarygary
 Tags: Google Places, Business Information, Location, Google Places API Web Services
+<<<<<<< HEAD
 Stable Tag: 1.1.4
+=======
+Stable Tag: 1.1.1
+>>>>>>> d173190616304ae04dfc932a6d9b73f966701ea9
 Requires at least: 4.0
 Tested up to: 4.4
 License: GPLv3 or later
@@ -40,6 +44,7 @@ The following shortcodes are available:
 
 == Changelog ==
 
+<<<<<<< HEAD
 = 1.1.4 =
 * fixed bone-headed mistake that hid the div
 
@@ -50,6 +55,11 @@ The following shortcodes are available:
 = 1.1.2 =
 * Fixed labels again
 * Shortcodes setup
+=======
+= 1.1.2 =
+* Fixed labels again
+* Shortcodes
+>>>>>>> d173190616304ae04dfc932a6d9b73f966701ea9
 * Added toggle for displaying the embedded DIV
 
 = 1.1.1 =
