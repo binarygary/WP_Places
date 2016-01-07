@@ -8,7 +8,7 @@ License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl.html
 
 
-WP_Places displays up-to-date information about almost any location or business you can think of to write about.
+WP_Places populates up-to-the-minute information about almost any location or business. Display address, phone number, hours of operation, and website.
 
 == Description ==
 
@@ -19,17 +19,17 @@ WP_Places Plugin requires a Google Places API Web Service Key. However, at the t
 Once Installed, WP_Places takes name and location and displays a DIV containing Business Name, Address, Hours, Phone Number, Website.
 
 The following shortcodes are available:
-[wp_places name] displays the Google Places name
-[wp_places formattedAddress] displays the address in the regionally standardized way
-[wp_places phoneNumber] displays the phone number in the regionally standardized way
-[wp_places hours] displays the hours of operation in a list
-[wp_places website] displays the website
-[wp_places priceLevel] returns the pricing level as prescribed in google places API
-[wp_places rating] returns the average rating as prescribed in google places API
-[wp_places lat] lattitude
-[wp_places lng] longitude
-[wp_places openNow] returns 1 if open
-[wp_places permanentlyClosed] returns 1 if permanently closed
+* [wp_places name] displays the Google Places name
+* [wp_places formattedAddress] displays the address in the regionally standardized way
+* [wp_places phoneNumber] displays the phone number in the regionally standardized way
+* [wp_places hours] displays the hours of operation in a list
+* [wp_places website] displays the website
+* [wp_places priceLevel] returns the pricing level as prescribed in google places API
+* [wp_places rating] returns the average rating as prescribed in google places API
+* [wp_places lat] lattitude
+* [wp_places lng] longitude
+* [wp_places openNow] returns 1 if open
+* [wp_places permanentlyClosed] returns 1 if permanently closed
 
 == Installation ==
 
