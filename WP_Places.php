@@ -2,7 +2,7 @@
 
 /**
  * Plugin Name: WP_Places
- * Version: 1.1.4
+ * Version: 1.1.5
  * Description: Given location name saved with a Post search Google Places API Web Service and displays address, hours, phone number and link to website
  * Author: Gary Kovar
  * Author URI: http://binarygary.com
@@ -322,10 +322,18 @@ if(get_option('WP_Places_Display_Div')=='embed') {
 function WP_Places_shortcode($attr) {
 	$locationPlace=get_post_meta(get_the_ID(),'_WP_Places_meta_Google_response', true);
 	$placeArray = placeDetails($locationPlace);
-	$attributesArray=array("openNow","permanentlyClosed","name","formattedAddress","phoneNumber","hours","website","priceLevel","rating","lat","lon");
+	$attributesArray=array("openNow","permanentlyClosed","name","formattedAddress","phoneNumber","hours","website","priceLevel","rating","lat","lng");
 	foreach ($attr as $index=>$key) {
 		if (in_array($key,$attributesArray)) {
-			echo $placeArray[$key];
+			if ("hours" == $key) {
+				$hoursList="<UL>";
+				foreach ($placeArray[$key] as $hoursOfOperation) {
+					$hoursList.="<LI>$hoursOfOperation";
+				}
+				$hoursList.="</UL>";
+				return $hoursList;
+			}
+			return $placeArray[$key];
 		}
 	}
 }

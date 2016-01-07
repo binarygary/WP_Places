@@ -21,13 +21,13 @@ Once Installed, WP_Places takes name and location and displays a DIV containing 
 The following shortcodes are available:
 [wp_places name] displays the Google Places name
 [wp_places formattedAddress] displays the address in the regionally standardized way
-[wp_places phoneNumaber] displays the phone number in the regionally standardized way
+[wp_places phoneNumber] displays the phone number in the regionally standardized way
 [wp_places hours] displays the hours of operation in a list
 [wp_places website] displays the website
 [wp_places priceLevel] returns the pricing level as prescribed in google places API
 [wp_places rating] returns the average rating as prescribed in google places API
 [wp_places lat] lattitude
-[wp_places lon] longitude
+[wp_places lng] longitude
 [wp_places openNow] returns 1 if open
 [wp_places permanentlyClosed] returns 1 if permanently closed
 
@@ -39,6 +39,12 @@ The following shortcodes are available:
 4. When writing a post about a business, add the business name and address to the WP_Places field.
 
 == Changelog ==
+
+= 1.1.5 =
+* added column view to all posts
+* added transient to prevent repeated shortcode use from causing repeat queries
+* fixed longitude shortcode
+* fixed hours display shortcode
 
 = 1.1.4 =
 * fixed bone-headed mistake that hid the div
