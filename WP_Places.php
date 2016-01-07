@@ -105,6 +105,29 @@ function WP_Places_settings() {
 	<?php 
 } 
 
+//add column
+add_filter('manage_posts_columns', 'wp_places_columns');
+function wp_places_columns($columns) {
+    $columns['wp_places'] = 'WP_Places';
+    return $columns;
+}
+
+add_action('manage_posts_custom_column',  'wp_places_show_columns');
+function wp_places_show_columns($name) {
+    global $post;
+    switch ($name) {
+        case 'wp_places':
+			if (!NULL==get_post_meta($post->ID, '_WP_Places_meta_Google_response', true)) {
+				$googleResponse=placeDetails(get_post_meta($post->ID, '_WP_Places_meta_Google_response', true));
+				//$googleResponse=get_post_meta($post->ID, '_WP_Places_meta_Google_response', true);
+				echo $googleResponse[name]."<BR>";
+				echo $googleResponse[formattedAddress];
+			}
+    }
+}
+
+
+
 /**
  * Adds a box to the main column on the Post and Page edit screens.
  */
@@ -225,10 +248,10 @@ function WP_Places_add_before_content($content) {
 	$locationPlace=get_post_meta(get_the_ID(),'_WP_Places_meta_Google_response', true);
 	//let's go ahead and cache this
 	
-	//if ( false === ( $placeArray = get_transient( '_Wp_Places_$locationPlace' ) ) ) {
-	$placeArray = placeDetails($locationPlace);
-	     //set_transient( "_Wp_Places_$locationPlace", $placeArray, DAY_IN_SECONDS );
-	//}
+	if ( false === ( $placeArray = get_transient( '_Wp_Places_$locationPlace' ) ) ) {
+		$placeArray = placeDetails($locationPlace);
+		set_transient( "_Wp_Places_$locationPlace", $placeArray, MINUTE_IN_SECONDS );
+	}
 	
 	
 	if(!NULL==$placeArray[name]) {
