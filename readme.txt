@@ -1,9 +1,9 @@
 === Plugin Name ===
 Contributors: binarygary
 Tags: Google Places, Business Information, Location, Google Places API Web Services
-Stable Tag: 1.1.4
+Stable Tag: 1.1.5
 Requires at least: 4.0
-Tested up to: 4.4
+Tested up to: 4.4.1
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl.html
 
