@@ -2,7 +2,7 @@
 
 /**
  * Plugin Name: WP_Places
- * Version: 1.1.5
+ * Version: 1.1.6
  * Description: Given location name saved with a Post search Google Places API Web Service and displays address, hours, phone number and link to website
  * Author: Gary Kovar
  * Author URI: http://binarygary.com
@@ -25,14 +25,21 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once(dirname(__FILE__) . "/includes/googlePlaces.php");
+require_once( dirname( __FILE__ ) . "/includes/googlePlaces.php" );
+
+function WP_Places_activate () {
+	if (NULL == get_option( 'WP_Places_Google_Id_Setting' ) ) {
+		update_option( 'WP_Places_Display_Div', 'embed' );
+	}
+}
+register_activation_hook( __FILE__, 'WP_Places_activate' );
+
 
 function WP_Places_menu() {
 	add_menu_page( 'WP_Places', 'WP_Places', 'manage_options', 'wp-places-plugin', 'WP_Places_settings' ,'dashicons-store','66');
 	add_action( 'admin_init', 'WP_Places_add_settings_field' );
 }
 add_action('admin_menu','WP_Places_menu');
-
 
 //Get the users google places key
 function WP_Places_add_settings_field() {
