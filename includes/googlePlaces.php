@@ -23,6 +23,33 @@ function search($location) {
     }
   }
   
+  function searchGPS($location,$lat,$lon) {
+	echo "<h1>$location ---- $lat --- $lon</h1>";  
+	  
+  	$apiKey = get_option( 'WP_Places_Google_Id_Setting', '' );
+  	$location=urlencode(trim(preg_replace("/[^0-9a-zA-Z -]/", "", $location)));
+  	$ch = curl_init();
+	
+	//echo "<h2>https://maps.googleapis.com/maps/api/place/textsearch/json?input=$location&key=$apiKey&location=$lat,$lon&radius=2500<h2>";
+      curl_setopt($ch, CURLOPT_URL, "https://maps.googleapis.com/maps/api/place/textsearch/json?input=$location&key=$apiKey&location=$lat,$lon&radius=2500");
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+      curl_setopt($ch, CURLOPT_VERBOSE, 0);
+      curl_setopt($ch, CURLOPT_HEADER, 0);
+      $response=curl_exec($ch);
+	  for ($i = 0; $i <= 31; ++$i) { 
+	      $response = str_replace(chr($i), "", $response); 
+	  }
+	  $response = str_replace(chr(127), "", $response);
+	  if (0 === strpos(bin2hex($response), 'efbbbf')) {
+	     $response = substr($response, 3);
+	  }
+      $response=json_decode($response,true);
+	  //print_r($response);
+	  $placeId=$response['results'][0]['place_id'];
+  	  return($placeId);
+      //}
+    }
+  
   
   function placeDetails($placeId) {
 	  if (!NULL==$placeId) {
