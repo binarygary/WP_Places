@@ -361,10 +361,8 @@ function WP_Places_search_shortcode($attr) {
 	update_post_meta( $post_id, '_WP_Places_meta_value_key', $phrase);
 	if (get_post_meta(get_the_ID(),'_WP_Places_meta_value_lat', true)) {
 		$result=searchGPS($phrase,get_post_meta(get_the_ID(),'_WP_Places_meta_value_lat', true),get_post_meta(get_the_ID(),'_WP_Places_meta_value_lon', true));
-		echo "<H3>LATLON SEARCH</H3>";
 	} else {
 		$result=search($phrase);
-		echo "<H3>NOT LATLON SEARCH</H3>";
 	}
 	update_post_meta( $post_id, '_WP_Places_meta_Google_response', $result);
 }

@@ -24,9 +24,7 @@ function search($location) {
   }
   
   function searchGPS($location,$lat,$lon) {
-	echo "<h1>$location ---- $lat --- $lon</h1>";  
-	  
-  	$apiKey = get_option( 'WP_Places_Google_Id_Setting', '' );
+	$apiKey = get_option( 'WP_Places_Google_Id_Setting', '' );
   	$location=urlencode(trim(preg_replace("/[^0-9a-zA-Z -]/", "", $location)));
   	$ch = curl_init();
 	
