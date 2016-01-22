@@ -280,10 +280,10 @@ function WP_Places_add_before_content($content) {
 			$WpPlaces.="<B>$placeArray[name]</B><BR>";
 		}
 		if (isset($placeArray[formattedAddress])) {
-			$WpPlaces.="$placeArray[formattedAddress]<BR>";
+			$WpPlaces.="<div itemprop=address itemscope itemtype=http://schema.org/PostalAddress>$placeArray[formattedAddress]<BR></div>";
 		}
 		if (isset($placeArray[phoneNumber])) {
-			$WpPlaces.="$placeArray[phoneNumber]<BR>";
+			$WpPlaces.="<span itemprop=telephone>$placeArray[phoneNumber]</span><BR>";
 		}
 		if (isset($placeArray[hours])) {
 			//the hell happened with open now?
@@ -292,7 +292,7 @@ function WP_Places_add_before_content($content) {
 			}
 		}
 		if (isset($placeArray[website])) {
-			$WpPlaces.="<a href=$placeArray[website]>website</a><BR>";
+			$WpPlaces.="<a href=$placeArray[website] itemprop=url>website</a><BR>";
 		}
 		if(get_option('WP_Places_Google_Attr_Setting_check')=='googlecheck') {
 			$WpPlaces.="<img src=".plugins_url('img/powered_by_google_on_white.png', __FILE__) . ">";
