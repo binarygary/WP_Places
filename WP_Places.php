@@ -35,6 +35,8 @@ function WP_Places_activate () {
 register_activation_hook( __FILE__, 'WP_Places_activate' );
 
 
+
+//BACKEND DISPLAY RELATED STUFF
 function WP_Places_menu() {
 	add_menu_page( 'WP_Places', 'WP_Places', 'manage_options', 'wp-places-plugin', 'WP_Places_settings' ,'dashicons-store','66');
 	add_action( 'admin_init', 'WP_Places_add_settings_field' );
@@ -126,7 +128,6 @@ function wp_places_show_columns($name) {
         case 'wp_places':
 			if (!NULL==get_post_meta($post->ID, '_WP_Places_meta_Google_response', true)) {
 				$googleResponse=placeDetails(get_post_meta($post->ID, '_WP_Places_meta_Google_response', true));
-				//$googleResponse=get_post_meta($post->ID, '_WP_Places_meta_Google_response', true);
 				echo $googleResponse[name]."<BR>";
 				echo $googleResponse[formattedAddress];
 			}
@@ -251,6 +252,9 @@ add_action( 'save_post', 'WP_Places_save_meta_box_data' );
 
 
 
+
+
+//FRONT END DISPLAY STUFF
 function WP_Places_add_before_content($content) {
 	$locationPlace=get_post_meta(get_the_ID(),'_WP_Places_meta_Google_response', true);
 	//let's go ahead and cache this
