@@ -331,9 +331,10 @@ if(get_option('WP_Places_Display_Div')=='embed') {
 
 
 function WP_Places_shortcode($attr) {
+	$apikey=get_option('WP_Places_Google_Id_Setting');
 	$locationPlace=get_post_meta(get_the_ID(),'_WP_Places_meta_Google_response', true);
 	$placeArray = placeDetails($locationPlace);
-	$attributesArray=array("openNow","permanentlyClosed","name","formattedAddress","phoneNumber","hours","website","priceLevel","rating","lat","lng");
+	$attributesArray=array("openNow","permanentlyClosed","name","formattedAddress","phoneNumber","hours","website","priceLevel","rating","lat","lng","reviews","photos");
 	foreach ($attr as $index=>$key) {
 		if (in_array($key,$attributesArray)) {
 			if ("hours" == $key) {
@@ -343,8 +344,22 @@ function WP_Places_shortcode($attr) {
 				}
 				$hoursList.="</UL>";
 				return $hoursList;
+			} elseif ("reviews" == $key) {
+				//print_r($placeArray[reviews]);
+				$reviewData="<UL>";
+				foreach ($placeArray[reviews] as $review) {
+					$reviewData.="<LI><B>$review[rating] out of 5</B> $review[text] by <i><a href=$review[author_url]>$review[author_name]</i></a></LI>";
+				}
+				$reviewData.="<UL>";
+				return $reviewData;
+			} elseif ("photos" == $key) {
+				foreach ($placeArray[photos] as $photo) {
+					$photoList.="<img src=https://maps.googleapis.com/maps/api/place/photo?photoreference=$photo[photo_reference]&maxwidth=1024&key=$apikey>";
+				}
+				return $photoList;
+			} else {
+				return $placeArray[$key];
 			}
-			return $placeArray[$key];
 		}
 	}
 }

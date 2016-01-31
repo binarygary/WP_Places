@@ -86,6 +86,8 @@ function search($location) {
       $gp[lng]=$response['result']['geometry']['location']['lng'];
 	  $gp[formattedAddress]=$response['result']['formatted_address'];//
       $gp[permanentlyClosed]=$response['result']['permanently_closed'];
+	  $gp[reviews]=$response['result']['reviews'];
+	  $gp[photos]=$response['result']['photos'];
 	  //print_r($gp);
 	  return($gp);
   	} else  {
