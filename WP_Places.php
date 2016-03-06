@@ -2,7 +2,7 @@
 
 /**
  * Plugin Name: WP_Places
- * Version: 1.1.6
+ * Version: 1.1.9
  * Description: Given location name saved with a Post search Google Places API Web Service and displays address, hours, phone number and link to website
  * Author: Gary Kovar
  * Author URI: http://binarygary.com
@@ -128,8 +128,8 @@ function wp_places_show_columns($name) {
         case 'wp_places':
 			if (!NULL==get_post_meta($post->ID, '_WP_Places_meta_Google_response', true)) {
 				$googleResponse=placeDetails(get_post_meta($post->ID, '_WP_Places_meta_Google_response', true));
-				echo $googleResponse[name]."<BR>";
-				echo $googleResponse[formattedAddress];
+				echo $googleResponse['name']."<BR>";
+				echo $googleResponse['formattedAddress'];
 			}
     }
 }
@@ -334,7 +334,7 @@ function WP_Places_shortcode($attr) {
 	$apikey=get_option('WP_Places_Google_Id_Setting');
 	$locationPlace=get_post_meta(get_the_ID(),'_WP_Places_meta_Google_response', true);
 	$placeArray = placeDetails($locationPlace);
-	$attributesArray=array("openNow","permanentlyClosed","name","formattedAddress","phoneNumber","hours","website","priceLevel","rating","lat","lng","reviews","photos");
+	$attributesArray=array("openNow","openNowText","permanentlyClosed","name","formattedAddress","phoneNumber","hours","website","priceLevel","rating","lat","lng","reviews","photos");
 	foreach ($attr as $index=>$key) {
 		if (in_array($key,$attributesArray)) {
 			if ("hours" == $key) {
@@ -345,18 +345,30 @@ function WP_Places_shortcode($attr) {
 				$hoursList.="</UL>";
 				return $hoursList;
 			} elseif ("reviews" == $key) {
+				if (!is_array($placeArray['reviews'])) {
+					return null;
+				}
 				//print_r($placeArray[reviews]);
 				$reviewData="<UL>";
-				foreach ($placeArray[reviews] as $review) {
-					$reviewData.="<LI><B>$review[rating] out of 5</B> $review[text] by <i><a href=$review[author_url]>$review[author_name]</i></a></LI>";
+				foreach ($placeArray['reviews'] as $review) {
+					$reviewData.="<LI><B>".$review['rating']." out of 5</B> ".$review['text']." by <i><a href=$review[author_url]>$review[author_name]</i></a></LI>";
 				}
 				$reviewData.="<UL>";
 				return $reviewData;
 			} elseif ("photos" == $key) {
-				foreach ($placeArray[photos] as $photo) {
+				if (!is_array($placeArray['photos'])) {
+					return null;
+				}
+				foreach ($placeArray['photos'] as $photo) {
 					$photoList.="<img src=https://maps.googleapis.com/maps/api/place/photo?photoreference=$photo[photo_reference]&maxwidth=1024&key=$apikey>";
 				}
 				return $photoList;
+			} elseif ("openNowText" == $key) {
+				
+				if ($placeArray['openNow']==1) {
+					return "Open Now!";
+				}
+			
 			} else {
 				return $placeArray[$key];
 			}

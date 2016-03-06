@@ -1,9 +1,9 @@
 === Plugin Name ===
 Contributors: binarygary
 Tags: Google Places, Business Information, Location, Google Places API Web Services
-Stable Tag: 1.1.6
+Stable Tag: 1.1.9
 Requires at least: 4.0
-Tested up to: 4.4.1
+Tested up to: 4.4.2
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl.html
 
@@ -19,6 +19,7 @@ WP_Places Plugin requires a Google Places API Web Service Key. However, at the t
 Once Installed, WP_Places takes name and location and displays a DIV containing Business Name, Address, Hours, Phone Number, Website.
 
 The following shortcodes are available:
+
 * [wp_places name] displays the Google Places name
 * [wp_places formattedAddress] displays the address in the regionally standardized way
 * [wp_places phoneNumber] displays the phone number in the regionally standardized way
@@ -29,7 +30,10 @@ The following shortcodes are available:
 * [wp_places lat] lattitude
 * [wp_places lng] longitude
 * [wp_places openNow] returns 1 if open
+* [wp_places openNowText] returns "Open Now" if open
 * [wp_places permanentlyClosed] returns 1 if permanently closed
+* [wp_places photos] returns photos if google supplies them
+* [wp_places reviews] returns a UL list of reviews if google supplies them
 
 == Installation ==
 
@@ -39,6 +43,15 @@ The following shortcodes are available:
 4. When writing a post about a business, add the business name and address to the WP_Places field.
 
 == Changelog ==
+
+= 1.1.9 =
+* Added Text ouput shortcode for Open Now [wp_places openNowText] (thanks Bart!)
+
+= 1.1.8 =
+* Fixed logic where no photos/reviews would throw error
+
+= 1.1.7 =
+* added shortcode for reviews and images
 
 = 1.1.6 =
 * on activation enable embed div display
