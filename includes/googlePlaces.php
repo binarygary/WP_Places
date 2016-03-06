@@ -57,7 +57,7 @@ function search($location) {
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
       curl_setopt($ch, CURLOPT_VERBOSE, 0);
       curl_setopt($ch, CURLOPT_HEADER, 0);
-	  $gp[placeId]=$placeId;
+	  $gp['placeId']=$placeId;
       $response=curl_exec($ch);
 	  unset($ch);
       for ($i = 0; $i <= 31; ++$i) { 
@@ -75,19 +75,22 @@ function search($location) {
       $response=json_decode($response,true);
       //print_r($response);
       //$this->openNow=$response['result']['opening_hours']['open_now'];
-      $gp[hours]=$response['result']['opening_hours']['weekday_text'];//
-      $gp[openNow]=$response['result']['opening_hours']['open_now'];
-      $gp[priceLevel]=$response['result']['price_level'];
-	  $gp[name]=$response['result']['name'];//
-      $gp[rating]=$response['result']['rating'];
-      $gp[phoneNumber]=$response['result']['formatted_phone_number'];//
-      $gp[website]=$response['result']['website'];//
-      $gp[lat]=$response['result']['geometry']['location']['lat'];
-      $gp[lng]=$response['result']['geometry']['location']['lng'];
-	  $gp[formattedAddress]=$response['result']['formatted_address'];//
-      $gp[permanentlyClosed]=$response['result']['permanently_closed'];
-	  $gp[reviews]=$response['result']['reviews'];
-	  $gp[photos]=$response['result']['photos'];
+	  if (isset($response['result'])) {
+	      $gp['hours']=$response['result']['opening_hours']['weekday_text'];//
+	      $gp['openNow']=$response['result']['opening_hours']['open_now'];
+	      $gp['priceLevel']=$response['result']['price_level'];
+		  $gp['name']=$response['result']['name'];//
+	      $gp['rating']=$response['result']['rating'];
+	      $gp['phoneNumber']=$response['result']['formatted_phone_number'];//
+	      $gp['website']=$response['result']['website'];//
+	      $gp['lat']=$response['result']['geometry']['location']['lat'];
+	      $gp['lng']=$response['result']['geometry']['location']['lng'];
+		  $gp['formattedAddress']=$response['result']['formatted_address'];//
+	      $gp['permanentlyClosed']=$response['result']['permanently_closed'];
+		  $gp['reviews']=$response['result']['reviews'];
+		  $gp['photos']=$response['result']['photos'];
+	  }
+      
 	  //print_r($gp);
 	  return($gp);
   	} else  {
