@@ -2,7 +2,7 @@
 
 /**
  * Plugin Name: WP_Places
- * Version: 1.1.9
+ * Version: 1.1.18
  * Description: Given location name saved with a Post search Google Places API Web Service and displays address, hours, phone number and link to website
  * Author: Gary Kovar
  * Author URI: http://binarygary.com
@@ -25,7 +25,9 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+//include the functions for calling google places
 require_once( dirname( __FILE__ ) . "/includes/googlePlaces.php" );
+
 
 function WP_Places_activate () {
 	if (NULL == get_option( 'WP_Places_Google_Id_Setting' ) ) {
@@ -178,10 +180,10 @@ function WP_Places_meta_box_callback( $post ) {
 		$googleResponse=placeDetails(get_post_meta($post->ID, '_WP_Places_meta_Google_response', true));
 		//$googleResponse=get_post_meta($post->ID, '_WP_Places_meta_Google_response', true);
 		echo "<h4>Here's the place WP_Places thinks you're talking about:</h4>";
-		echo "<h5>".$googleResponse[name]."<BR>";
-		echo $googleResponse[formattedAddress]."</h5>";
+		echo "<h5>".$googleResponse['name']."<BR>";
+		echo $googleResponse['formattedAddress']."</h5>";
 	} else {
-		echo "<h4>Unfortunately the infortmation you have provided was not specific enough.</h4>";
+		echo "<h4>Unfortunately the information you have provided was not specific enough.</h4>";
 	}
 	
 }
@@ -245,6 +247,10 @@ function WP_Places_save_meta_box_data( $post_id ) {
 	//print_r($result);
 	update_post_meta( $post_id, '_WP_Places_meta_Google_response', $result);
 	
+	$placeDetails=placeDetails($result);
+	update_post_meta( $post_id, '_WP_Places_lat', $placeDetails['lat']);
+	update_post_meta( $post_id, '_WP_Places_lng', $placeDetails['lng']);
+	update_post_meta( $post_id, '_WP_Places_name', $placeDetails['name']);
 	
 	
 }
@@ -259,43 +265,50 @@ function WP_Places_add_before_content($content) {
 	$locationPlace=get_post_meta(get_the_ID(),'_WP_Places_meta_Google_response', true);
 	//let's go ahead and cache this
 	
-	if ( false === ( $placeArray = get_transient( '_Wp_Places_$locationPlace' ) ) ) {
+	if ( false === ( $placeArray = get_transient( '_Wp_Places_$locationPlace' ) ) )  {
 		$placeArray = placeDetails($locationPlace);
 		set_transient( "_Wp_Places_$locationPlace", $placeArray, MINUTE_IN_SECONDS );
 	}
 	
 	
-	if(!NULL==$placeArray[name]) {
+	if (!is_array($placeArray)) {
+		return $content;
+	}
+	
+	if(array_key_exists('name',$placeArray)) {
 		$style=get_option( 'WP_Places_CSS', '' );
-		$WpPlaces.="<DIV style=\"$style\">";
+		$WpPlaces="<DIV style=\"$style\">";
 		
-		if (isset($placeArray[openNow])) {
-			if ($placeArray[openNow]==1) {
-				$WpPlaces.="<span style=\"color: red;\">Open Now</SPAN><BR>";	
+		if (array_key_exists('openNow',$placeArray)) {
+			if ($placeArray['openNow']==1) {
+				$WpPlaces.="<span style=\"color: red;\">Open Now</SPAN><BR>";
 			}
 		}
 		
 		
 		
-		if (isset($placeArray[permanentlyClosed])) {
-			$WpPlaces.="<span style=\"color: red;\">PERMANENTLY CLOSED</SPAN><BR>";
+		if (array_key_exists('permanentlyClosed',$placeArray)) {
+			if ($placeArray['permanentlyClosed']==1) {
+				$WpPlaces.="<span style=\"color: red;\">PERMANENTLY CLOSED</SPAN><BR>";
+			}
 		}
-		if (isset($placeArray[name])) {
-			$WpPlaces.="<B>$placeArray[name]</B><BR>";
-		}
-		if (isset($placeArray[formattedAddress])) {
+		
+		$WpPlaces.="<B>$placeArray[name]</B><BR>";
+		
+		if (array_key_exists('formattedAddress',$placeArray)) {
 			$WpPlaces.="<div itemprop=address itemscope itemtype=http://schema.org/PostalAddress>$placeArray[formattedAddress]<BR></div>";
 		}
-		if (isset($placeArray[phoneNumber])) {
+		if (array_key_exists('phoneNumber',$placeArray)) {
 			$WpPlaces.="<span itemprop=telephone>$placeArray[phoneNumber]</span><BR>";
 		}
-		if (isset($placeArray[hours])) {
-			//the hell happened with open now?
-			foreach ($placeArray[hours] as $day) {
-				$WpPlaces.="$day<BR>";
+		if (array_key_exists('hours',$placeArray)) {
+			if (is_array($placeArray['hours'])) {
+				foreach ($placeArray['hours'] as $day) {
+					$WpPlaces.="$day<BR>";
+				}
 			}
 		}
-		if (isset($placeArray[website])) {
+		if (array_key_exists('website',$placeArray)) {
 			$WpPlaces.="<a href=$placeArray[website] itemprop=url>website</a><BR>";
 		}
 		if(get_option('WP_Places_Google_Attr_Setting_check')=='googlecheck') {
@@ -306,13 +319,14 @@ function WP_Places_add_before_content($content) {
 	if (is_single()) {
 			$contents = explode("</p>", $content);
 			if (is_array($contents)) {
+				$added=0;
 				foreach ($contents as $paragraph) {
 					if ($added!=1) {
 						$paragraph=$paragraph.$WpPlaces;
 						$added=1;
 						$content=null;
 					}
-					$content.=$paragraph."</p>";	
+					$content.=$paragraph."</p>";
 				}
 			} else {
 				$content=$WpPlaces.$content;
@@ -339,8 +353,10 @@ function WP_Places_shortcode($attr) {
 		if (in_array($key,$attributesArray)) {
 			if ("hours" == $key) {
 				$hoursList="<UL>";
-				foreach ($placeArray[$key] as $hoursOfOperation) {
-					$hoursList.="<LI>$hoursOfOperation";
+				if (count($placeArray[$key])>1) {
+					foreach ($placeArray[$key] as $hoursOfOperation) {
+						$hoursList.="<LI>$hoursOfOperation";
+					}
 				}
 				$hoursList.="</UL>";
 				return $hoursList;

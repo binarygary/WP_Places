@@ -1,9 +1,9 @@
 === Plugin Name ===
 Contributors: binarygary
 Tags: Google Places, Business Information, Location, Google Places API Web Services
-Stable Tag: 1.1.9
+Stable Tag: 1.1.18
 Requires at least: 4.0
-Tested up to: 4.4.2
+Tested up to: 4.5.2
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl.html
 
@@ -43,6 +43,38 @@ The following shortcodes are available:
 4. When writing a post about a business, add the business name and address to the WP_Places field.
 
 == Changelog ==
+
+= 1.1.18 =
+* user tagsdomino pointed out an error with preg_replace in PHP7 and proposed using str_replace.  Thanks! tagsdomino.
+
+= 1.1.17 =
+* Store meta data for lat/lon
+* Reversed course on serializing transient thanks to @salcode
+* Proposing we appoint @salcode lifeguard of twitter
+
+= 1.1.16 =
+* Serialized response array so transients don't duplicate calls to the google places api within short amounts of time
+
+= 1.1.15 =
+* Fixed a mis-spelling
+* Updated tested up to version number
+
+= 1.1.14 =
+* Fixed a bug that caused posts to be display empty when google ID is not set.
+
+= 1.1.13 =
+* Fixed a whole heap of array references that were throwing PHP notices.
+
+= 1.1.12 = 
+* Fixed an error that showed locations as closed in some edge cases
+* Handles & in location name with special thanks to bartdyer for a simple solution
+
+= 1.1.11 =
+* Handled situation where API response did not have all data set
+* Quieted down a bunch of PHP Notices
+
+= 1.1.10 =
+* Fixed logic in hours when location doesn't provide hours
 
 = 1.1.9 =
 * Added Text ouput shortcode for Open Now [wp_places openNowText] (thanks Bart!)

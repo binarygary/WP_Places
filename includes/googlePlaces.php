@@ -4,6 +4,8 @@
 
 function search($location) {
 	$apiKey = get_option( 'WP_Places_Google_Id_Setting', '' );
+	//thanks bartdyer for the simple solution
+	$location=str_replace("&", "and", $location);
 	$location=urlencode(trim(preg_replace("/[^0-9a-zA-Z -]/", "", $location)));
 	$ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$location&key=$apiKey");
@@ -23,7 +25,7 @@ function search($location) {
     }
   }
   
-  function searchGPS($location,$lat,$lon) {
+  function searchGPS($location,$lat='',$lon='') {
 	$apiKey = get_option( 'WP_Places_Google_Id_Setting', '' );
   	$location=urlencode(trim(preg_replace("/[^0-9a-zA-Z -]/", "", $location)));
   	$ch = curl_init();
@@ -76,19 +78,19 @@ function search($location) {
       //print_r($response);
       //$this->openNow=$response['result']['opening_hours']['open_now'];
 	  if (isset($response['result'])) {
-	      $gp['hours']=$response['result']['opening_hours']['weekday_text'];//
-	      $gp['openNow']=$response['result']['opening_hours']['open_now'];
-	      $gp['priceLevel']=$response['result']['price_level'];
-		  $gp['name']=$response['result']['name'];//
-	      $gp['rating']=$response['result']['rating'];
-	      $gp['phoneNumber']=$response['result']['formatted_phone_number'];//
-	      $gp['website']=$response['result']['website'];//
-	      $gp['lat']=$response['result']['geometry']['location']['lat'];
-	      $gp['lng']=$response['result']['geometry']['location']['lng'];
-		  $gp['formattedAddress']=$response['result']['formatted_address'];//
-	      $gp['permanentlyClosed']=$response['result']['permanently_closed'];
-		  $gp['reviews']=$response['result']['reviews'];
-		  $gp['photos']=$response['result']['photos'];
+	      $gp['hours']=isset($response['result']['opening_hours']['weekday_text']) ? $response['result']['opening_hours']['weekday_text'] : '';//
+	      $gp['openNow']=isset($response['result']['opening_hours']['open_now']) ? $response['result']['opening_hours']['open_now'] : '';
+	      $gp['priceLevel']=isset($response['result']['price_level']) ? $response['result']['price_level'] : '';
+		  $gp['name']=isset($response['result']['name']) ? $response['result']['name'] : '';//
+	      $gp['rating']=isset($response['result']['rating']) ? $response['result']['rating'] : '';
+	      $gp['phoneNumber']=isset($response['result']['formatted_phone_number']) ? $response['result']['formatted_phone_number'] : '';//
+	      $gp['website']=isset($response['result']['website']) ? $response['result']['website'] : '';//
+	      $gp['lat']=isset($response['result']['geometry']['location']['lat']) ? $response['result']['geometry']['location']['lat'] : '';
+	      $gp['lng']=isset($response['result']['geometry']['location']['lng']) ? $response['result']['geometry']['location']['lng'] : '';
+		  $gp['formattedAddress']=isset($response['result']['formatted_address']) ? $response['result']['formatted_address'] : '';//
+	      $gp['permanentlyClosed']=isset($response['result']['permanently_closed']) ? $response['result']['permanently_closed'] : '';
+		  $gp['reviews']=isset($response['result']['reviews']) ? $response['result']['reviews'] : '';
+		  $gp['photos']=isset($response['result']['photos']) ? $response['result']['photos'] : '';
 	  }
       
 	  //print_r($gp);
