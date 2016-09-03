@@ -1,0 +1,17 @@
+{
+  "generator-plugin-wp": {
+    "name": "BinaryGary WP Places",
+    "homepage": "https://www.binarygary.com",
+    "description": "An OOP version of WP Places.",
+    "version": "2.0.0",
+    "author": "Gary Kovar",
+    "authoremail": "plugins@binarygary.com",
+    "authorurl": "https://www.binarygary.com",
+    "license": "GPLv2",
+    "slug": "binarygary-wp-places",
+    "classname": "BinaryGary_WP_Places",
+    "classprefix": "BGWPP_",
+    "prefix": "binarygary_wp_places",
+    "year": 2016
+  }
+}

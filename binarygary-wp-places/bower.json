@@ -1,0 +1,18 @@
+{
+  "name": "binarygary-wp-places",
+  "description": "An OOP version of WP Places.",
+  "license": "GPLv2",
+  "authors": [
+    "Gary Kovar"
+  ],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+  }
+}
