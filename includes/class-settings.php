@@ -177,6 +177,15 @@ class WPP_Settings {
 
 	}
 
+	/**
+	 * Get a list of posts-types and their display names.
+	 *
+	 * @return array of post-type slug as key and name as value
+	 *
+	 * @author Gary Kovar
+	 *
+	 * @since 2.0.0
+	 */
 	public function get_post_types() {
 
 		$args = array(
@@ -190,6 +199,22 @@ class WPP_Settings {
 		}
 
 		return $posts_array;
+	}
+
+	/**
+	 * Returns the google places api key.
+	 *
+	 * @author Gary Kovar
+	 *
+	 * @since 2.0.0
+	 *
+	 * @return string
+	 */
+	public function places_api_key() {
+
+		$options = get_option( 'wp_places_settings' );
+
+		return $options[ 'google_places_api_key' ];
 	}
 
 }
