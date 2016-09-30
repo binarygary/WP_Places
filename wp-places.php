@@ -117,6 +117,30 @@ final class WP_Places {
 	protected $settings;
 
 	/**
+	 * Instance of WPP_Meta_boxes
+	 *
+	 * @since NEXT
+	 * @var WPP_Meta_boxes
+	 */
+	protected $meta_boxes;
+
+	/**
+	 * Instance of WPP_Shortcodes
+	 *
+	 * @since NEXT
+	 * @var WPP_Shortcodes
+	 */
+	protected $shortcodes;
+
+	/**
+	 * Instance of WPP_Google_places_api
+	 *
+	 * @since NEXT
+	 * @var WPP_Google_places_api
+	 */
+	protected $google_places_api;
+
+	/**
 	 * Creates or returns an instance of this class.
 	 *
 	 * @since  NEXT
@@ -150,6 +174,9 @@ final class WP_Places {
 	public function plugin_classes() {
 		// Attach other plugin classes to the base plugin class.
 		$this->settings = new WPP_Settings( $this );
+		$this->meta_boxes = new WPP_Meta_boxes( $this );
+		$this->shortcodes = new WPP_Shortcodes( $this );
+		$this->google_places_api = new WPP_Google_places_api( $this );
 	} // END OF PLUGIN CLASSES FUNCTION
 
 	/**
@@ -275,6 +302,9 @@ final class WP_Places {
 			case 'url':
 			case 'path':
 			case 'settings':
+			case 'meta_boxes':
+			case 'shortcodes':
+			case 'google_places_api':
 				return $this->$field;
 			default:
 				throw new Exception( 'Invalid ' . __CLASS__ . ' property: ' . $field );
