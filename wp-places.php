@@ -152,7 +152,7 @@ final class WP_Places {
 	 */
 	public function hooks() {
 		//Priority needs to be < 10 for CPT and < 5 for taxonomy.
-		add_action( 'init', array( $this, 'init', 1 ) );
+		add_action( 'init', array( $this, 'init') , 1  );
 	}
 
 	/**
