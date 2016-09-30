@@ -53,6 +53,11 @@ class WPP_Settings {
 	protected $options_page = '';
 
 	/**
+	 * Saved options.
+	 */
+	public $options = '';
+
+	/**
 	 * Constructor
 	 *
 	 * @since  NEXT
@@ -62,10 +67,13 @@ class WPP_Settings {
 	 * @return void
 	 */
 	public function __construct( $plugin ) {
+
 		$this->plugin = $plugin;
 		$this->hooks();
 
 		$this->title = __( 'WP_Places Settings', 'wp-places' );
+		$this->options = get_option( 'wp_places_settings' );
+
 	}
 
 	/**
@@ -212,9 +220,23 @@ class WPP_Settings {
 	 */
 	public function places_api_key() {
 
-		$options = get_option( 'wp_places_settings' );
+		return $this->options[ 'google_places_api_key' ];
 
-		return $options[ 'google_places_api_key' ];
+	}
+
+	/**
+	 * Returns an array of the post-typeso to allow places on.
+	 *
+	 * @author Gary Kovar
+	 *
+	 * @since 2.0.0
+	 *
+	 * @return array of post-type slugs
+	 */
+	public function selected_post_types() {
+
+		return $this->options[ 'post_types' ];
+
 	}
 
 }
