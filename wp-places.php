@@ -109,6 +109,14 @@ final class WP_Places {
 	protected static $single_instance = null;
 
 	/**
+	 * Instance of WPP_Settings
+	 *
+	 * @since NEXT
+	 * @var WPP_Settings
+	 */
+	protected $settings;
+
+	/**
 	 * Creates or returns an instance of this class.
 	 *
 	 * @since  NEXT
@@ -141,7 +149,7 @@ final class WP_Places {
 	 */
 	public function plugin_classes() {
 		// Attach other plugin classes to the base plugin class.
-		// $this->plugin_class = new WPP_Plugin_Class( $this );
+		$this->settings = new WPP_Settings( $this );
 	} // END OF PLUGIN CLASSES FUNCTION
 
 	/**
@@ -266,6 +274,7 @@ final class WP_Places {
 			case 'basename':
 			case 'url':
 			case 'path':
+			case 'settings':
 				return $this->$field;
 			default:
 				throw new Exception( 'Invalid ' . __CLASS__ . ' property: ' . $field );
