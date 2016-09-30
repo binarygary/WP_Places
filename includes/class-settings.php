@@ -162,10 +162,34 @@ class WPP_Settings {
 		) );
 
 		$cmb->add_field( array(
-			'name' => 'WP_Places Style',
+			'name' => 'WP_Places Style:',
 			'id'   => 'style',
 			'type' => 'textarea'
 		) );
 
+		$cmb->add_field( array(
+			'name'              => 'Post Types:',
+			'id'                => 'post_types',
+			'type'              => 'multicheck',
+			'options_cb'        => array( $this, 'get_post_types' ),
+			'select_all_button' => false,
+		) );
+
 	}
+
+	public function get_post_types() {
+
+		$args = array(
+			'public' => true,
+		);
+
+		$post_types = get_post_types( $args, 'objects' );
+
+		foreach ( $post_types as $post_type ) {
+			$posts_array[ $post_type->name ] = $post_type->labels->name;
+		}
+
+		return $posts_array;
+	}
+
 }
