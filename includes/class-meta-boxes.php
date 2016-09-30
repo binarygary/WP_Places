@@ -91,13 +91,38 @@ class WPP_Meta_boxes {
 
 	}
 
-
+	/**
+	 * Search for the places id
+	 *
+	 * @author Gary Kovar
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param $value
+	 * @param $field_args
+	 * @param $field
+	 *
+	 * @return mixed
+	 */
 	public function get_google_place_id( $value, $field_args, $field ) {
-		return $value;
+		return $this->plugin->google_places_api->search( $value );
 	}
 
+	/**
+	 * Get information about the place
+	 *
+	 * @author Gary Kovar
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param $value
+	 * @param $field_args
+	 * @param $field
+	 *
+	 * @return mixed
+	 */
 	public function display_place_information( $value, $field_args, $field ) {
-		return $value;
+		return $this->plugin->google_places_api->placeDetails( $value );
 	}
 
 
