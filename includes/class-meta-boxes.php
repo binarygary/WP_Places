@@ -46,7 +46,7 @@ class WPP_Meta_boxes {
 	 * @return void
 	 */
 	public function hooks() {
-		add_action( 'cmb2_init', array( $this, 'setup_meta_box' ));
+		add_action( 'cmb2_init', array( $this, 'setup_meta_box' ) );
 	}
 
 	/**
@@ -82,11 +82,22 @@ class WPP_Meta_boxes {
 		) );
 
 		$cmb->add_field( array(
-			'name' => __( 'Place Address', 'wp_places' ),
-			'id'   => '_wp_places',
-			'type' => 'text',
+			'name'            => __( 'Place Address', 'wp_places' ),
+			'id'              => '_wp_places',
+			'type'            => 'text',
+			'sanitization_cb' => array( $this, 'get_google_place_id' ),
+			'escape_cb'       => array( $this, 'display_place_information' ),
 		) );
 
+	}
+
+
+	public function get_google_place_id( $value, $field_args, $field ) {
+		return $value;
+	}
+
+	public function display_place_information( $value, $field_args, $field ) {
+		return $value;
 	}
 
 
