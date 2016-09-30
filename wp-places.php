@@ -141,6 +141,14 @@ final class WP_Places {
 	protected $google_places_api;
 
 	/**
+	 * Instance of WPP_Content
+	 *
+	 * @since NEXT
+	 * @var WPP_Content
+	 */
+	protected $content;
+
+	/**
 	 * Creates or returns an instance of this class.
 	 *
 	 * @since  NEXT
@@ -177,6 +185,7 @@ final class WP_Places {
 		$this->meta_boxes = new WPP_Meta_boxes( $this );
 		$this->shortcodes = new WPP_Shortcodes( $this );
 		$this->google_places_api = new WPP_Google_places_api( $this );
+		$this->content = new WPP_Content( $this );
 	} // END OF PLUGIN CLASSES FUNCTION
 
 	/**
@@ -305,6 +314,7 @@ final class WP_Places {
 			case 'meta_boxes':
 			case 'shortcodes':
 			case 'google_places_api':
+			case 'content':
 				return $this->$field;
 			default:
 				throw new Exception( 'Invalid ' . __CLASS__ . ' property: ' . $field );
