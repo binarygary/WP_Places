@@ -6,7 +6,7 @@
  * @package WP_Places
  */
 
-require_once dirname(__FILE__) . '/../vendor/cmb2/init.php';
+require_once dirname( __FILE__ ) . '/../vendor/cmb2/init.php';
 
 /**
  * WP_Places Settings class.
@@ -56,7 +56,9 @@ class WPP_Settings {
 	 * Constructor
 	 *
 	 * @since  NEXT
+	 *
 	 * @param  object $plugin Main plugin object.
+	 *
 	 * @return void
 	 */
 	public function __construct( $plugin ) {
@@ -141,17 +143,29 @@ class WPP_Settings {
 			),
 		) );
 
-		/*
-		Add your fields here
+		$cmb->add_field( array(
+			'name' => 'Google Places API Key',
+			'id'   => 'google_places_api_key',
+			'type' => 'text',
+		) );
 
 		$cmb->add_field( array(
-			'name'    => __( 'Test Text', 'myprefix' ),
-			'desc'    => __( 'field description (optional)', 'myprefix' ),
-			'id'      => 'test_text', // no prefix needed
-			'type'    => 'text',
-			'default' => __( 'Default Text', 'myprefix' ),
+			'name' => 'Add the \'Powered by Google\' Image the Google TOS Requires:',
+			'id'   => 'powered_by_google_image',
+			'type' => 'checkbox',
 		) );
-		*/
+
+		$cmb->add_field( array(
+			'name' => 'Embed a div in content using the style below:',
+			'id'   => 'show_div',
+			'type' => 'checkbox',
+		) );
+
+		$cmb->add_field( array(
+			'name' => 'WP_Places Style',
+			'id'   => 'style',
+			'type' => 'textarea'
+		) );
 
 	}
 }
