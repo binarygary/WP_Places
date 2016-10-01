@@ -36,7 +36,6 @@ class WPP_Meta_boxes {
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
-		$this->legacy_transition();
 		$this->hooks();
 	}
 
@@ -49,6 +48,7 @@ class WPP_Meta_boxes {
 	public function hooks() {
 		if ( $this->plugin->settings->places_api_key() ) {
 			add_action( 'cmb2_init', array( $this, 'setup_meta_box' ) );
+			add_action( 'init', array( $this, 'legacy_transition' ) );
 		}
 	}
 
@@ -128,7 +128,7 @@ class WPP_Meta_boxes {
 	 * @return mixed
 	 */
 	public function display_place_information( $value, $field_args, $field ) {
-		return $this->plugin->google_places_api->placeDetails( $value );
+		return print_r( $this->plugin->google_places_api->placeDetails( $value ), true );
 	}
 
 
@@ -167,6 +167,8 @@ class WPP_Meta_boxes {
 	/**
 	 * If the old post_meta is set, copy to the new meta key.
 	 *
+	 * @TODO Why is this $post not working?
+	 *
 	 * @author Gary Kovar
 	 *
 	 * @since 2.0.0
@@ -174,6 +176,10 @@ class WPP_Meta_boxes {
 	 * @return null
 	 */
 	public function legacy_transition() {
+		global $post;
+
+		print_r($post);
+
 		if ( $old_meta = get_post_meta( $post->ID, '_WP_Places_meta_Google_response', true ) ) {
 			update_post_meta( $post->ID, '_wp_places', $old_meta );
 			delete_post_meta( $post->ID, '_WP_Places_meta_Google_response' );
