@@ -71,7 +71,9 @@ class WPP_Settings {
 		$this->plugin = $plugin;
 		$this->hooks();
 
-		$this->title = __( 'WP_Places Settings', 'wp-places' );
+		$this->legacy_update();
+
+		$this->title   = __( 'WP_Places Settings', 'wp-places' );
 		$this->options = get_option( 'wp_places_settings' );
 
 	}
@@ -97,6 +99,49 @@ class WPP_Settings {
 	public function admin_init() {
 		register_setting( $this->key, $this->key );
 	}
+
+	/**
+	 * Check if this is an update and pass the setting on.
+	 *
+	 * @author Gary Kovar
+	 *
+	 * @since 2.0.0
+	 *
+	 * @return null
+	 */
+	public function legacy_update() {
+		if ( ! get_option( 'wp_places_legacy' ) ) {
+			$this->retrieve_old_settings();
+			update_option( 'wp_places_legacy', true, true );
+		}
+	}
+
+	/**
+	 * if the old settings exist, retrieve and then delete them.
+	 *
+	 * @author Gary Kovar
+	 *
+	 * @since 2.0.0
+	 *
+	 * @return null
+	 */
+	public function retrieve_old_settings() {
+
+		$old_setting[ 'google_places_api_key' ]   = get_option( 'WP_Places_Google_Id_Setting' );
+		$old_setting[ 'powered_by_google_image' ] = get_option( 'WP_Places_Google_Attr_Setting_check' );
+		$old_setting[ 'style' ]                   = get_option( 'WP_Places_CSS' );
+		$old_setting[ 'show_div' ]                = get_option( 'WP_Places_Display_Div' );
+
+		update_option( 'wp_places_settings', $old_setting );
+
+		delete_option( 'WP_Places_Google_Id_Setting' );
+		delete_option( 'WP_Places_Google_Attr_Setting_check' );
+		delete_option( 'WP_Places_CSS' );
+		delete_option( 'WP_Places_Display_Div' );
+
+
+	}
+
 
 	/**
 	 * Add menu options page
