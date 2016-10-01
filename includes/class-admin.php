@@ -41,6 +41,22 @@ class WPP_Admin {
 	 * @return void
 	 */
 	public function hooks() {
+		if ( is_array( $this->plugin->settings->selected_post_types() ) ) {
+			$this->add_admin_views();
+		}
+	}
+
+
+	/**
+	 * Add admin views for each post type selected.
+	 *
+	 * @author Gary Kovar
+	 *
+	 * @since 2.0.0
+	 *
+	 * @return null
+	 */
+	public function add_admin_views() {
 		foreach ( $this->plugin->settings->selected_post_types() as $post_type ) {
 
 			if ( 'post' == $post_type ) {
@@ -58,6 +74,7 @@ class WPP_Admin {
 		}
 	}
 
+
 	/**
 	 * Add a column for WP Places data.
 	 *
@@ -71,7 +88,7 @@ class WPP_Admin {
 	 */
 	public function add_wpplaces_column( $columns ) {
 
-			$columns[ 'wp_places' ] = 'WP Places';
+		$columns[ 'wp_places' ] = 'WP Places';
 
 		return $columns;
 

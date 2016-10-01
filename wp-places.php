@@ -44,7 +44,9 @@
  * Autoloads files with classes when needed
  *
  * @since  NEXT
+ *
  * @param  string $class_name Name of the class being requested.
+ *
  * @return void
  */
 function wp_places_autoload_classes( $class_name ) {
@@ -59,6 +61,7 @@ function wp_places_autoload_classes( $class_name ) {
 
 	WP_Places::include_file( 'includes/class-' . $filename );
 }
+
 spl_autoload_register( 'wp_places_autoload_classes' );
 
 /**
@@ -189,12 +192,12 @@ final class WP_Places {
 	 */
 	public function plugin_classes() {
 		// Attach other plugin classes to the base plugin class.
-		$this->settings = new WPP_Settings( $this );
-		$this->meta_boxes = new WPP_Meta_boxes( $this );
-		$this->shortcodes = new WPP_Shortcodes( $this );
+		$this->settings          = new WPP_Settings( $this );
+		$this->meta_boxes        = new WPP_Meta_boxes( $this );
+		$this->shortcodes        = new WPP_Shortcodes( $this );
 		$this->google_places_api = new WPP_Google_places_api( $this );
-		$this->content = new WPP_Content( $this );
-		$this->admin = new WPP_Admin( $this );
+		$this->content           = new WPP_Content( $this );
+		$this->admin             = new WPP_Admin( $this );
 	} // END OF PLUGIN CLASSES FUNCTION
 
 	/**
@@ -204,8 +207,7 @@ final class WP_Places {
 	 * @return void
 	 */
 	public function hooks() {
-		//Priority needs to be < 10 for CPT and < 5 for taxonomy.
-		add_action( 'init', array( $this, 'init') , 1  );
+		add_action( 'init', array( $this, 'init' ), 0 );
 	}
 
 	/**
@@ -226,7 +228,8 @@ final class WP_Places {
 	 * @since  NEXT
 	 * @return void
 	 */
-	public function _deactivate() {}
+	public function _deactivate() {
+	}
 
 	/**
 	 * Init hooks
@@ -270,7 +273,7 @@ final class WP_Places {
 	 * @return void
 	 */
 	public function deactivate_me() {
-	  
+
 		// We do a check for deactivate_plugins before calling it, to protect
 		// any developers from accidentally calling it too early and breaking things.
 		if ( function_exists( 'deactivate_plugins' ) ) {
@@ -308,7 +311,9 @@ final class WP_Places {
 	 * Magic getter for our object.
 	 *
 	 * @since  NEXT
+	 *
 	 * @param string $field Field to get.
+	 *
 	 * @throws Exception Throws an exception if the field is invalid.
 	 * @return mixed
 	 */
@@ -335,7 +340,9 @@ final class WP_Places {
 	 * Include a file from the includes directory
 	 *
 	 * @since  NEXT
+	 *
 	 * @param  string $filename Name of the file to be included.
+	 *
 	 * @return bool   Result of include call.
 	 */
 	public static function include_file( $filename ) {
@@ -343,6 +350,7 @@ final class WP_Places {
 		if ( file_exists( $file ) ) {
 			return include_once( $file );
 		}
+
 		return false;
 	}
 
@@ -350,12 +358,15 @@ final class WP_Places {
 	 * This plugin's directory
 	 *
 	 * @since  NEXT
+	 *
 	 * @param  string $path (optional) appended path.
+	 *
 	 * @return string       Directory and path
 	 */
 	public static function dir( $path = '' ) {
 		static $dir;
 		$dir = $dir ? $dir : trailingslashit( dirname( __FILE__ ) );
+
 		return $dir . $path;
 	}
 
@@ -363,12 +374,15 @@ final class WP_Places {
 	 * This plugin's url
 	 *
 	 * @since  NEXT
+	 *
 	 * @param  string $path (optional) appended path.
+	 *
 	 * @return string       URL and path
 	 */
 	public static function url( $path = '' ) {
 		static $url;
 		$url = $url ? $url : trailingslashit( plugin_dir_url( __FILE__ ) );
+
 		return $url . $path;
 	}
 }

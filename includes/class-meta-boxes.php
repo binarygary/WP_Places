@@ -46,7 +46,9 @@ class WPP_Meta_boxes {
 	 * @return void
 	 */
 	public function hooks() {
-		add_action( 'cmb2_init', array( $this, 'setup_meta_box' ) );
+		if ($this->plugin->settings->places_api_key()) {
+			add_action( 'cmb2_init', array( $this, 'setup_meta_box' ) );
+		}
 	}
 
 	/**
@@ -59,9 +61,12 @@ class WPP_Meta_boxes {
 	 * @return null
 	 */
 	public function setup_meta_box() {
-		if ( in_array( $this->get_current_post_type(), $this->plugin->settings->selected_post_types() ) ) {
-			$this->add_metabox();
+		if ( $this->plugin->settings->selected_post_types() ) {
+			if ( in_array( $this->get_current_post_type(), $this->plugin->settings->selected_post_types() ) ) {
+				$this->add_metabox();
+			}
 		}
+
 	}
 
 	/**

@@ -265,12 +265,16 @@ class WPP_Settings {
 	 */
 	public function places_api_key() {
 
-		return $this->options[ 'google_places_api_key' ];
+		if ( array_key_exists( 'google_places_api_key', $this->options ) ) {
+			return $this->options[ 'google_places_api_key' ];
+		}
+
+		return null;
 
 	}
 
 	/**
-	 * Returns an array of the post-typeso to allow places on.
+	 * Returns an array of the post-types to allow places on.
 	 *
 	 * @author Gary Kovar
 	 *
@@ -280,7 +284,11 @@ class WPP_Settings {
 	 */
 	public function selected_post_types() {
 
-		return $this->options[ 'post_types' ];
+		if ( array_key_exists( 'post_types', $this->options ) && is_array( $this->options[ 'post_types' ] ) ) {
+			return $this->options[ 'post_types' ];
+		}
+
+		return null;
 
 	}
 
