@@ -36,6 +36,7 @@ class WPP_Meta_boxes {
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
+		$this->legacy_transition();
 		$this->hooks();
 	}
 
@@ -46,7 +47,7 @@ class WPP_Meta_boxes {
 	 * @return void
 	 */
 	public function hooks() {
-		if ($this->plugin->settings->places_api_key()) {
+		if ( $this->plugin->settings->places_api_key() ) {
 			add_action( 'cmb2_init', array( $this, 'setup_meta_box' ) );
 		}
 	}
@@ -161,6 +162,22 @@ class WPP_Meta_boxes {
 
 		//we do not know the post type!
 		return null;
+	}
+
+	/**
+	 * If the old post_meta is set, copy to the new meta key.
+	 *
+	 * @author Gary Kovar
+	 *
+	 * @since 2.0.0
+	 *
+	 * @return null
+	 */
+	public function legacy_transition() {
+		if ( $old_meta = get_post_meta( $post->ID, '_WP_Places_meta_Google_response', true ) ) {
+			update_post_meta( $post->ID, '_wp_places', $old_meta );
+			delete_post_meta( $post->ID, '_WP_Places_meta_Google_response' );
+		}
 	}
 
 }
