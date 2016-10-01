@@ -54,6 +54,7 @@ class WPP_Admin {
 				add_filter( 'manage_' . $post_type . '_posts_columns', array( $this, 'add_wpplaces_column' ) );
 				add_action( 'manage_' . $post_type . 'posts_custom_column', array( $this, 'wp_places_show_column' ) );
 			}
+
 		}
 	}
 
@@ -69,9 +70,11 @@ class WPP_Admin {
 	 * @return mixed
 	 */
 	public function add_wpplaces_column( $columns ) {
-		$columns[ 'wp_places' ] = 'WP Places';
+
+			$columns[ 'wp_places' ] = 'WP Places';
 
 		return $columns;
+
 	}
 
 
@@ -89,12 +92,11 @@ class WPP_Admin {
 		switch ( $name ) {
 			case 'wp_places':
 				if ( ! null == get_post_meta( $post->ID, '_WP_Places_meta_Google_response', true ) ) {
-					$googleResponse = placeDetails( get_post_meta( $post->ID, '_WP_Places_meta_Google_response', true ) );
+					$googleResponse = $this->plugin->google_places_api->placeDetails( get_post_meta( $post->ID, '_WP_Places_meta_Google_response', true ) );
 					echo $googleResponse[ 'name' ] . "<BR>";
 					echo $googleResponse[ 'formattedAddress' ];
 				}
 		}
 	}
-
 
 }

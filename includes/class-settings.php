@@ -239,4 +239,52 @@ class WPP_Settings {
 
 	}
 
+
+	/**
+	 * Returns whether or not to display the div.
+	 *
+	 * @author Gary Kovar
+	 *
+	 * @since 2.0.0
+	 *
+	 * @return $content
+	 */
+	public function embed_div() {
+
+		return $this->options[ 'show_div' ];
+
+	}
+
+
+	/**
+	 * Returns embedded div.
+	 *
+	 * @author Gary Kovar
+	 *
+	 * @since 2.0.0
+	 *
+	 * @return $content
+	 */
+	public function get_div() {
+
+		return $this->options[ 'style' ];
+
+	}
+
+	/**
+	 * Returns embedded div.
+	 *
+	 * @author Gary Kovar
+	 *
+	 * @since 2.0.0
+	 *
+	 * @return $content
+	 */
+	public function get_powered_by_google() {
+
+		return $this->options[ 'powered_by_google_image' ];
+
+	}
+
+
 }
