@@ -46,7 +46,7 @@ class WPP_Place_Data {
 
 	public function load_place( $place_id ) {
 //		if ( false === ( $this->raw_results = get_transient( "_WP_Places_$place_id" ) ) ) {
-			$this->raw_results = $this->plugin->google_places_api->placeDetails( $place_id );
+		$this->raw_results = $this->plugin->google_places_api->placeDetails( $place_id );
 //			set_transient( "_WP_Places_$place_id", $this->raw_results, MINUTE_IN_SECONDS );
 //		}
 
@@ -66,10 +66,16 @@ class WPP_Place_Data {
 	}
 
 	public function get_standard_address( $place_id ) {
-		if (!isset($this->raw_results)){
-			$this->load_place($place_id);
+		if ( ! isset( $this->raw_results ) ) {
+			$this->load_place( $place_id );
 		}
-		$display_name = $this->name . ', ' . $this->formatted_address;
+		if ( ! is_null( $this->name ) ) {
+			$display_name = $this->name;
+		}
+		if ( ! is_null( $this->formatted_address ) && ! is_null( $display_name ) ) {
+			$display_name .= ', ' . $this->formatted_address;
+		}
+
 		return $display_name;
 	}
 }
