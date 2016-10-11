@@ -11,6 +11,7 @@
  *
  * @since NEXT
  */
+
 class WPP_Meta_boxes {
 
 	/**
@@ -48,27 +49,9 @@ class WPP_Meta_boxes {
 	 */
 	public function hooks() {
 		if ( $this->plugin->settings->places_api_key() ) {
-			add_action( 'cmb2_init', array( $this, 'setup_meta_box' ) );
+			add_action( 'cmb2_init', array( $this, 'add_meta_box' ) );
 			add_action( 'admin_head', array( $this, 'legacy_transition' ) );
 		}
-	}
-
-	/**
-	 * Check and see if this page should have the wp_places metabox
-	 *
-	 * @author Gary Kovar
-	 *
-	 * @since  2.0.0
-	 *
-	 * @return null
-	 */
-	public function setup_meta_box() {
-		if ( $this->plugin->settings->selected_post_types() ) {
-			if ( in_array( $this->get_current_post_type(), $this->plugin->settings->selected_post_types() ) ) {
-				$this->add_metabox();
-			}
-		}
-
 	}
 
 	/**
@@ -85,7 +68,7 @@ class WPP_Meta_boxes {
 		$cmb = new_cmb2_box( array(
 			'id'           => $this->metabox_id,
 			'title'        => 'Place Location',
-			'object_types' => array( 'post' ),
+			'object_types' => $this->plugin->settings->selected_post_types(),
 		) );
 
 		$cmb->add_field( array(
@@ -143,6 +126,9 @@ class WPP_Meta_boxes {
 	 * @return false|null|string
 	 */
 	function get_current_post_type() {
+
+		//error_log(print_r(get_current_screen(),true));
+
 		global $post, $typenow, $current_screen;
 		//we have a post so we can just get the post type from that
 		if ( $post && $post->post_type ) {
@@ -175,7 +161,7 @@ class WPP_Meta_boxes {
 	 */
 	public function legacy_transition() {
 		global $post;
-		if ( ! isset( $post ) ) {
+		if ( ! isset( $post )  ) {
 			return;
 		}
 		if ( $old_meta = get_post_meta( $post->ID, '_WP_Places_meta_Google_response', true ) ) {
