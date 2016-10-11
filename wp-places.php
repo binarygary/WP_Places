@@ -160,6 +160,14 @@ final class WP_Places {
 	protected $admin;
 
 	/**
+	 * Instance of WPP_Place_Data
+	 *
+	 * @since NEXT
+	 * @var WPP_Place_Data
+	 */
+	protected $place_data;
+
+	/**
 	 * Creates or returns an instance of this class.
 	 *
 	 * @since  NEXT
@@ -198,6 +206,7 @@ final class WP_Places {
 		$this->google_places_api = new WPP_Google_places_api( $this );
 		$this->content           = new WPP_Content( $this );
 		$this->admin             = new WPP_Admin( $this );
+		$this->place_data = new WPP_Place_Data( $this );
 	} // END OF PLUGIN CLASSES FUNCTION
 
 	/**
@@ -330,6 +339,7 @@ final class WP_Places {
 			case 'google_places_api':
 			case 'content':
 			case 'admin':
+			case 'place_data':
 				return $this->$field;
 			default:
 				throw new Exception( 'Invalid ' . __CLASS__ . ' property: ' . $field );
