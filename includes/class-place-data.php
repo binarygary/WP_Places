@@ -40,4 +40,9 @@ class WPP_Place_Data {
 	 */
 	public function hooks() {
 	}
+
+	public function load_place( $place_id ) {
+		$this->raw_results = $this->plugin->google_places_api->placeDetails( $place_id );
+		return $this->raw_results;
+	}
 }
