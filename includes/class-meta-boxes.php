@@ -115,41 +115,6 @@ class WPP_Meta_boxes {
 		return $this->plugin->place_data->get_standard_address( $value );
 	}
 
-
-	/**
-	 * Get the current post type.
-	 *
-	 * @author DomenicF on github (https://gist.github.com/DomenicF/3ebcf7d53ce3182854716c4d8f1ab2e2)
-	 *
-	 * @since  2.0.0
-	 *
-	 * @return false|null|string
-	 */
-	function get_current_post_type() {
-
-		//error_log(print_r(get_current_screen(),true));
-
-		global $post, $typenow, $current_screen;
-		//we have a post so we can just get the post type from that
-		if ( $post && $post->post_type ) {
-			return $post->post_type;
-		} //check the global $typenow - set in admin.php
-		elseif ( $typenow ) {
-			return $typenow;
-		} //check the global $current_screen object - set in sceen.php
-		elseif ( $current_screen && $current_screen->post_type ) {
-			return $current_screen->post_type;
-		} //check the post_type querystring
-		elseif ( isset( $_REQUEST[ 'post_type' ] ) ) {
-			return sanitize_key( $_REQUEST[ 'post_type' ] );
-		} //lastly check if post ID is in query string
-		elseif ( isset( $_REQUEST[ 'post' ] ) ) {
-			return get_post_type( $_REQUEST[ 'post' ] );
-		}
-		//we do not know the post type!
-		return null;
-	}
-
 	/**
 	 * If the old post_meta is set, copy to the new meta key.
 	 *
