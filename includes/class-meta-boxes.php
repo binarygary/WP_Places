@@ -2,7 +2,7 @@
 /**
  * WP_Places Meta_boxes
  *
- * @since NEXT
+ * @since   NEXT
  * @package WP_Places
  */
 
@@ -12,6 +12,7 @@
  * @since NEXT
  */
 class WPP_Meta_boxes {
+
 	/**
 	 * Parent plugin class
 	 *
@@ -48,7 +49,7 @@ class WPP_Meta_boxes {
 	public function hooks() {
 		if ( $this->plugin->settings->places_api_key() ) {
 			add_action( 'cmb2_init', array( $this, 'setup_meta_box' ) );
-			add_action( 'init', array( $this, 'legacy_transition' ) );
+			add_action( 'admin_head', array( $this, 'legacy_transition' ) );
 		}
 	}
 
@@ -57,7 +58,7 @@ class WPP_Meta_boxes {
 	 *
 	 * @author Gary Kovar
 	 *
-	 * @since 2.0.0
+	 * @since  2.0.0
 	 *
 	 * @return null
 	 */
@@ -75,7 +76,7 @@ class WPP_Meta_boxes {
 	 *
 	 * @author Gary Kovar
 	 *
-	 * @since 2.0.0
+	 * @since  2.0.0
 	 *
 	 * @return void
 	 */
@@ -102,7 +103,7 @@ class WPP_Meta_boxes {
 	 *
 	 * @author Gary Kovar
 	 *
-	 * @since 2.0.0
+	 * @since  2.0.0
 	 *
 	 * @param $value
 	 * @param $field_args
@@ -119,7 +120,7 @@ class WPP_Meta_boxes {
 	 *
 	 * @author Gary Kovar
 	 *
-	 * @since 2.0.0
+	 * @since  2.0.0
 	 *
 	 * @param $value
 	 * @param $field_args
@@ -137,7 +138,7 @@ class WPP_Meta_boxes {
 	 *
 	 * @author DomenicF on github (https://gist.github.com/DomenicF/3ebcf7d53ce3182854716c4d8f1ab2e2)
 	 *
-	 * @since 2.0.0
+	 * @since  2.0.0
 	 *
 	 * @return false|null|string
 	 */
@@ -159,7 +160,6 @@ class WPP_Meta_boxes {
 		elseif ( isset( $_REQUEST[ 'post' ] ) ) {
 			return get_post_type( $_REQUEST[ 'post' ] );
 		}
-
 		//we do not know the post type!
 		return null;
 	}
@@ -167,23 +167,22 @@ class WPP_Meta_boxes {
 	/**
 	 * If the old post_meta is set, copy to the new meta key.
 	 *
-	 * @TODO Why is this $post not working?
-	 *
 	 * @author Gary Kovar
 	 *
-	 * @since 2.0.0
+	 * @since  2.0.0
 	 *
 	 * @return null
 	 */
 	public function legacy_transition() {
 		global $post;
-
-		print_r($post);
-
+		if ( ! isset( $post ) ) {
+			return;
+		}
 		if ( $old_meta = get_post_meta( $post->ID, '_WP_Places_meta_Google_response', true ) ) {
 			update_post_meta( $post->ID, '_wp_places', $old_meta );
 			delete_post_meta( $post->ID, '_WP_Places_meta_Google_response' );
 		}
+
 	}
 
 }
