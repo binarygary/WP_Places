@@ -1,0 +1,18 @@
+{
+  "name": "wp-places",
+  "description": "Add location data to your WordPress.",
+  "license": "GPLv2",
+  "authors": [
+    "Gary Kovar"
+  ],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+  }
+}
