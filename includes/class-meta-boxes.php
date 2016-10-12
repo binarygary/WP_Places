@@ -124,7 +124,11 @@ class WPP_Meta_boxes {
 	 * @return mixed
 	 */
 	public function display_place_information( $value, $field_args, $field ) {
-		return $this->plugin->place_data->get_standard_address( $value );
+		if ( ! empty( $value ) ) {
+			return $this->plugin->place_data->get_standard_address( $value );
+		} else {
+			return null;
+		}
 	}
 
 

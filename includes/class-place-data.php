@@ -45,10 +45,10 @@ class WPP_Place_Data {
 	}
 
 	public function load_place( $place_id ) {
-//		if ( false === ( $this->raw_results = get_transient( "_WP_Places_$place_id" ) ) ) {
+		if ( false === ( $this->raw_results = get_transient( "_WP_Places_$place_id" ) ) ) {
 		$this->raw_results = $this->plugin->google_places_api->placeDetails( $place_id );
-//			set_transient( "_WP_Places_$place_id", $this->raw_results, MINUTE_IN_SECONDS );
-//		}
+			set_transient( "_WP_Places_$place_id", $this->raw_results, MINUTE_IN_SECONDS );
+		}
 
 		$this->hours              = isset( $this->raw_results[ 'opening_hours' ][ 'weekday_text' ] ) ? $this->raw_results[ 'opening_hours' ][ 'weekday_text' ] : '';//
 		$this->open_now           = isset( $this->raw_results[ 'opening_hours' ][ 'open_now' ] ) ? $this->raw_results[ 'opening_hours' ][ 'open_now' ] : '';
