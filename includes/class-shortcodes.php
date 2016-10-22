@@ -73,7 +73,7 @@ class WPP_Shortcodes {
 	function WP_Places_shortcode( $attr ) {
 		$apikey          = get_option( 'WP_Places_Google_Id_Setting' );
 		$locationPlace   = get_post_meta( get_the_ID(), '_WP_Places_meta_Google_response', true );
-		$placeArray      = $this->google_places_api->placeDetails( $locationPlace );
+		$placeArray      = $this->plugin->google_places_api->placeDetails( $locationPlace );
 		$attributesArray = array(
 			"openNow",
 			"openNowText",

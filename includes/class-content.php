@@ -63,8 +63,8 @@ class WPP_Content {
 		}
 
 		if(array_key_exists('name',$placeArray)) {
-			$style=get_option( 'WP_Places_CSS', '' );
-			$WpPlaces="<DIV style=\"$style\">";
+			$style=get_option( 'wp_places_settings', '' );
+			$WpPlaces='<DIV style="' . $style['style'] . '">';
 
 			if (array_key_exists('openNow',$placeArray)) {
 				if ($placeArray['openNow']==1) {
