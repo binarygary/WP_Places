@@ -60,19 +60,19 @@ class WPP_Shortcodes {
 				$phrase = $phrase . " " . $value;
 			}
 		}
-		update_post_meta( $post_id, '_WP_Places_meta_value_key', $phrase );
+		update_post_meta( $post_id, '_wp_places', $phrase );
 		if ( get_post_meta( get_the_ID(), '_WP_Places_meta_value_lat', true ) ) {
 			$result = $this->google_places_api->searchGPS( $phrase, get_post_meta( get_the_ID(), '_WP_Places_meta_value_lat', true ), get_post_meta( get_the_ID(), '_WP_Places_meta_value_lon', true ) );
 		} else {
 			$result = $this->google_places_api->search( $phrase );
 		}
-		update_post_meta( $post_id, '_WP_Places_meta_Google_response', $result );
+		update_post_meta( $post_id, '_wp_places', $result );
 	}
 
 
 	function WP_Places_shortcode( $attr ) {
-		$apikey          = get_option( 'WP_Places_Google_Id_Setting' );
-		$locationPlace   = get_post_meta( get_the_ID(), '_WP_Places_meta_Google_response', true );
+		$apikey          = $this->plugin->settings->get_api_key();
+		$locationPlace   = get_post_meta( get_the_ID(), '_wp_places', true );
 		$placeArray      = $this->plugin->google_places_api->placeDetails( $locationPlace );
 		$attributesArray = array(
 			"openNow",
@@ -106,7 +106,6 @@ class WPP_Shortcodes {
 					if ( ! is_array( $placeArray[ 'reviews' ] ) ) {
 						return null;
 					}
-					//print_r($placeArray[reviews]);
 					$reviewData = "<UL>";
 					foreach ( $placeArray[ 'reviews' ] as $review ) {
 						$reviewData .= "<LI><B>" . $review[ 'rating' ] . " out of 5</B> " . $review[ 'text' ] . " by <i><a href=$review[author_url]>$review[author_name]</i></a></LI>";

@@ -341,7 +341,7 @@ class WPP_Settings {
 
 	}
 
-	public function bet_api_key() {
+	public function get_api_key() {
 		return $this->options[ 'google_places_api_key' ];
 	}
 
