@@ -290,7 +290,7 @@ class WPP_Settings {
 			return $this->options[ 'post_types' ];
 		}
 
-		return null;
+		return array( 'posts', 'pages' );
 
 	}
 
@@ -306,7 +306,10 @@ class WPP_Settings {
 	 */
 	public function embed_div() {
 
-		return $this->options[ 'show_div' ];
+		if ( isset ($this->options['show_div']) ){
+
+			return $this->options[ 'show_div' ];
+		}
 
 	}
 

@@ -117,6 +117,7 @@ class WPP_Shortcodes {
 					if ( ! is_array( $placeArray[ 'photos' ] ) ) {
 						return null;
 					}
+					$photoList ='';
 					foreach ( $placeArray[ 'photos' ] as $photo ) {
 						$photoList .= "<img src=https://maps.googleapis.com/maps/api/place/photo?photoreference=$photo[photo_reference]&maxwidth=1024&key=$apikey>";
 					}

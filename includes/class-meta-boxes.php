@@ -156,11 +156,11 @@ class WPP_Meta_boxes {
 		elseif ( $current_screen && $current_screen->post_type ) {
 			return $current_screen->post_type;
 		} //check the post_type querystring
-		elseif ( isset( $_REQUEST[ 'post_type' ] ) ) {
-			return sanitize_key( $_REQUEST[ 'post_type' ] );
+		elseif ( isset( $_REQUEST['post_type'] ) ) {
+			return sanitize_key( $_REQUEST['post_type'] );
 		} //lastly check if post ID is in query string
-		elseif ( isset( $_REQUEST[ 'post' ] ) ) {
-			return get_post_type( $_REQUEST[ 'post' ] );
+		elseif ( isset( $_REQUEST['post'] ) ) {
+			return get_post_type( $_REQUEST['post'] );
 		}
 
 		//we do not know the post type!

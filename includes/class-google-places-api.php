@@ -86,7 +86,7 @@ class WPP_Google_places_api {
 	}
 
 	/**
-	 * Search for locaiotn given location info and gps coords.
+	 * Search for location given location info and gps coords.
 	 *
 	 * @author Gary Kovar
 	 *
@@ -115,10 +115,9 @@ class WPP_Google_places_api {
 			$response = substr($response, 3);
 		}
 		$response=json_decode($response,true);
-		//print_r($response);
 		$placeId=$response['results'][0]['place_id'];
 		return($placeId);
-		//}
+
 	}
 
 	/**
@@ -153,8 +152,6 @@ class WPP_Google_places_api {
 				$response = substr($response, 3);
 			}
 			$response=json_decode($response,true);
-			//print_r($response);
-			//$this->openNow=$response['result']['opening_hours']['open_now'];
 			if (isset($response['result'])) {
 				$gp['hours']=isset($response['result']['opening_hours']['weekday_text']) ? $response['result']['opening_hours']['weekday_text'] : '';//
 				$gp['openNow']=isset($response['result']['opening_hours']['open_now']) ? $response['result']['opening_hours']['open_now'] : '';
@@ -171,7 +168,6 @@ class WPP_Google_places_api {
 				$gp['photos']=isset($response['result']['photos']) ? $response['result']['photos'] : '';
 			}
 
-			//print_r($gp);
 			return($gp);
 		} else  {
 			return;
