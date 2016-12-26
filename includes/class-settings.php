@@ -2,7 +2,7 @@
 /**
  * WP_Places Settings
  *
- * @since NEXT
+ * @since   NEXT
  * @package WP_Places
  */
 
@@ -14,6 +14,7 @@ require_once dirname( __FILE__ ) . '/../vendor/cmb2/init.php';
  * @since NEXT
  */
 class WPP_Settings {
+
 	/**
 	 * Parent plugin class
 	 *
@@ -48,6 +49,7 @@ class WPP_Settings {
 
 	/**
 	 * Options Page hook
+	 *
 	 * @var string
 	 */
 	protected $options_page = '';
@@ -105,7 +107,7 @@ class WPP_Settings {
 	 *
 	 * @author Gary Kovar
 	 *
-	 * @since 2.0.0
+	 * @since  2.0.0
 	 *
 	 * @return null
 	 */
@@ -121,7 +123,7 @@ class WPP_Settings {
 	 *
 	 * @author Gary Kovar
 	 *
-	 * @since 2.0.0
+	 * @since  2.0.0
 	 *
 	 * @return null
 	 */
@@ -217,7 +219,7 @@ class WPP_Settings {
 		$cmb->add_field( array(
 			'name' => 'WP_Places Style:',
 			'id'   => 'style',
-			'type' => 'textarea'
+			'type' => 'textarea',
 		) );
 
 		$cmb->add_field( array(
@@ -237,7 +239,7 @@ class WPP_Settings {
 	 *
 	 * @author Gary Kovar
 	 *
-	 * @since 2.0.0
+	 * @since  2.0.0
 	 */
 	public function get_post_types() {
 
@@ -259,7 +261,7 @@ class WPP_Settings {
 	 *
 	 * @author Gary Kovar
 	 *
-	 * @since 2.0.0
+	 * @since  2.0.0
 	 *
 	 * @return string
 	 */
@@ -278,7 +280,7 @@ class WPP_Settings {
 	 *
 	 * @author Gary Kovar
 	 *
-	 * @since 2.0.0
+	 * @since  2.0.0
 	 *
 	 * @return array of post-type slugs
 	 */
@@ -288,7 +290,7 @@ class WPP_Settings {
 			return $this->options[ 'post_types' ];
 		}
 
-		return null;
+		return array( 'posts', 'pages' );
 
 	}
 
@@ -298,13 +300,16 @@ class WPP_Settings {
 	 *
 	 * @author Gary Kovar
 	 *
-	 * @since 2.0.0
+	 * @since  2.0.0
 	 *
 	 * @return $content
 	 */
 	public function embed_div() {
 
-		return $this->options[ 'show_div' ];
+		if ( isset ($this->options['show_div']) ){
+
+			return $this->options[ 'show_div' ];
+		}
 
 	}
 
@@ -314,7 +319,7 @@ class WPP_Settings {
 	 *
 	 * @author Gary Kovar
 	 *
-	 * @since 2.0.0
+	 * @since  2.0.0
 	 *
 	 * @return $content
 	 */
@@ -329,7 +334,7 @@ class WPP_Settings {
 	 *
 	 * @author Gary Kovar
 	 *
-	 * @since 2.0.0
+	 * @since  2.0.0
 	 *
 	 * @return $content
 	 */
@@ -339,5 +344,8 @@ class WPP_Settings {
 
 	}
 
+	public function get_api_key() {
+		return $this->options[ 'google_places_api_key' ];
+	}
 
 }

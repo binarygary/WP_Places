@@ -217,6 +217,7 @@ final class WP_Places {
 	 */
 	public function hooks() {
 		add_action( 'init', array( $this, 'init' ), 0 );
+		require_once( $this->path . 'includes/map-shortcode.php' );
 	}
 
 	/**
