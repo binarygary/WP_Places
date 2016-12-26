@@ -49,7 +49,16 @@ class WPP_Content {
 	}
 
 	function WP_Places_add_before_content( $content ) {
+
+		global $post;
+
+		// This is to handle legacy.
+		if ( $old_meta = get_post_meta( $post->ID, '_WP_Places_meta_Google_response', true ) ) {
+			update_post_meta( $post->ID, '_wp_places', $old_meta );
+			delete_post_meta( $post->ID, '_WP_Places_meta_Google_response' );
+		}
 		$locationPlace = get_post_meta( get_the_ID(), '_wp_places', true );
+
 
 		// Let's go ahead and cache this
 		if ( false === ( $placeArray = get_transient( "_Wp_Places_$locationPlace" ) ) ) {

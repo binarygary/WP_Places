@@ -227,7 +227,7 @@ class WPP_Settings {
 			'id'                => 'post_types',
 			'type'              => 'multicheck',
 			'options_cb'        => array( $this, 'get_post_types' ),
-			'select_all_button' => false,
+			'select_all_button' => true,
 		) );
 
 	}
