@@ -207,6 +207,8 @@ final class WP_Places {
 		$this->content           = new WPP_Content( $this );
 		$this->admin             = new WPP_Admin( $this );
 		$this->place_data = new WPP_Place_Data( $this );
+		require( self::dir( 'includes/class-map.php' ) );
+		require( self::dir( 'includes/class-hours.php' ) );
 	} // END OF PLUGIN CLASSES FUNCTION
 
 	/**
