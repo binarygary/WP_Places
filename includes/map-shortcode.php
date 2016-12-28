@@ -2,7 +2,7 @@
 /**
  */
 
-function places_get_coordinates( $posts = '' ) {
+function wp_places_get_coordinates( $posts = '' ) {
 
 	//print_r($posts);
 
@@ -117,4 +117,4 @@ function places_get_coordinates( $posts = '' ) {
 
 }
 
-add_shortcode( 'wpplacesmap', 'places_get_coordinates' );
+add_shortcode( 'wpplacesmap', 'wp_places_get_coordinates' );

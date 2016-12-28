@@ -218,6 +218,7 @@ final class WP_Places {
 	 * @return void
 	 */
 	public function hooks() {
+		add_action( 'admin_init', array( $this, 'admin_init' ), 0);
 		add_action( 'init', array( $this, 'init' ), 0 );
 		require_once( $this->path . 'includes/map-shortcode.php' );
 	}
@@ -241,6 +242,16 @@ final class WP_Places {
 	 * @return void
 	 */
 	public function _deactivate() {
+	}
+
+	/**
+	 * Admin Init Hooks
+	 */
+	public function admin_init() {
+		$map_plugin = WP_PLUGIN_DIR . 'wp-places-map/wp-places-map.php';
+		if( is_plugin_active( $map_plugin ) ) {
+			deactivate_plugin( $map_plugin );
+		}
 	}
 
 	/**

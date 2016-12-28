@@ -1,9 +1,9 @@
 === Plugin Name ===
 Contributors: binarygary
 Tags: Google Places, Business Information, Location, Google Places API Web Services
-Stable Tag: 1.1.18
+Stable Tag: 2.0.0
 Requires at least: 4.0
-Tested up to: 4.5.2
+Tested up to: 4.7
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl.html
 
@@ -43,6 +43,9 @@ The following shortcodes are available:
 4. When writing a post about a business, add the business name and address to the WP_Places field.
 
 == Changelog ==
+
+= 2.0.0 =
+* massive refactoring that will allow quicker fixes going forward.
 
 = 1.1.18 =
 * user tagsdomino pointed out an error with preg_replace in PHP7 and proposed using str_replace.  Thanks! tagsdomino.
